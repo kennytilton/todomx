@@ -1,10 +1,10 @@
 # todomx
 
-FIXME: Write a one-line description of your library/project.
+The TodoMVC Classic (now extended) as implemented in the Matrix (dataflow library). Versions for JS and CLJS.
 
 ## Overview
 
-FIXME: Write a paragraph about the library/project and highlight its goals.
+More soon. Moving code out from the example directory of the tag repo as we speak.
 
 ## Setup
 
@@ -51,6 +51,6 @@ Build a single release artifact with the following script and then open `index_r
 
 ## License
 
-Copyright © 2016 FIXME
+Copyright © 2018, Kenneth Tilton
 
 Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
