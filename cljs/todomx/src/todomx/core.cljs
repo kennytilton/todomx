@@ -4,7 +4,7 @@
     [goog.dom :as dom]
     [tiltontec.model.core :as md]
     [tiltontec.tag.html :refer [tag-dom-create *tag-trace*]]
-    [todomx.todomx :as tmx]
+    [todomx.build :as tmx]
     [taoensso.tufte :as tufte :refer (defnp p profiled profile)]
     [cljs-time.coerce :refer [from-long to-string] :as tmc]))
 

@@ -1,3 +1,11 @@
+;;
+;; The "model" to-do, a matrix incarnaton of to-dos maintained in localStorage
+;; Here we:
+;; -- load any existing to-dos into the matrix at start-up;
+;; -- create new matrix todos and store them immediately;
+;; -- then persist them when they change (including setting a logical deletion value.
+;;
+
 (ns todomx.todo
   (:require
     [clojure.string :as str]
@@ -6,7 +14,7 @@
     [tiltontec.cell.core
      :refer-macros [c? c?n] :refer [c-in]]
     [tiltontec.cell.observer :refer [observe-by-type]]
-    [tiltontec.model.core :as md :refer [make md-get md-reset!]]
+    [tiltontec.model.core :as md :refer [make <mget mset!>]]
     [tiltontec.util.core :as util :refer [pln now map-to-json json-to-map uuidv4]]
     [tiltontec.tag.html :refer [io-upsert io-read io-find io-truncate]]))
 
@@ -20,14 +28,12 @@
 
 (declare td-upsert td-deleted td-completed load-all)
 
-(def TODO_LS_PREFIX "todos-matrixcljs.")
-
-
+(def TODO_LS_PREFIX "todos-todomx.")
 
 (defn todo-list []
   (md/make ::todo-list
     :items-raw (c?n (load-all))
-    :items (c? (p :items (doall (remove td-deleted (md-get me :items-raw)))))
+    :items (c? (p :items (doall (remove td-deleted (<mget me :items-raw)))))
 
     ;; the TodoMVC challenge has a requirement that routes "go thru the
     ;; the model". (Some of us just toggled the hidden attribute appropriately
@@ -35,8 +41,8 @@
     ;; examine the route and ask the model for different subsets using different
     ;; functions for each subset. For fun we used dedicated cells:
 
-    :items-completed (c? (p :completed (doall (filter td-completed (md-get me :items)))))
-    :items-active (c? (p :active (doall (remove td-completed (md-get me :items)))))
+    :items-completed (c? (p :completed (doall (filter td-completed (<mget me :items)))))
+    :items-active (c? (p :active (doall (remove td-completed (<mget me :items)))))
 
     ;; two DIVs want to hide if there are no to-dos, so we dedicate a cell
     ;; to that semantic. Yes, this could be a function, but then the Cell
@@ -45,7 +51,7 @@
     ;; the count goes to or from zero, so we avoid recomputing two "hiddens"
     ;; unnecessarily when the count changes, say, from 2 to 3.
 
-    :empty? (c? (nil? (first (md-get me :items))))))
+    :empty? (c? (nil? (first (<mget me :items))))))
 
 (defn make-todo
   "Make a matrix incarnation of a todo on initial entry"
@@ -58,9 +64,10 @@
 
                      ;; now wrap mutable slots as Cells...
                      :title     (c-in (:title islots))
-                     :completed (c-in false)
-                     :due-by    (c-in (+ (now) (* 4 24 60 60 1000)))
+                     :completed (c-in nil)
+                     :due-by    (c-in nil #_ (+ (now) (* 4 24 60 60 1000)))
                      :deleted   (c-in nil)})
+
         todo (apply md/make (flatten (into [] net-slots)))]
 
     (td-upsert todo)
@@ -70,38 +77,40 @@
   (dotimes [n ct]
     (make-todo {:title (str prefix n)})))
 
-;;; --- handy accessors to hide md-get etc ------------------
+;;; --- handy accessors to hide <mget / mset!> ------------------
 
 (defn td-created [td]
-  ;; created is not a Cell because it never changes, but we use the md-get API anyway
-  ;; just in case that changes. (md-get can handle normal slots not wrapped in cells.)
-  (md-get td :created))
+  ;; created is not a Cell because it never changes, but we use the <mget API anyway
+  ;; just in case that changes. (<mget can handle normal slots not wrapped in cells.)
+  (<mget td :created))
 
 (defn td-title [td]
-  (md-get td :title))
+  (<mget td :title))
 
 (defn td-id [td]
-  (md-get td :id))
+  (<mget td :id))
 
 (defn td-due-by [td]
-  (md-get td :due-by))
+  (<mget td :due-by))
 
 (defn td-completed [td]
-  (md-get td :completed))
+  (<mget td :completed))
 
 (defn td-deleted [td]
-  ;; created is not a Cell because it never changes, but we use the md-get API anyway
+  ;; created is not a Cell because it never changes, but we use the <mget API anyway
   ;; just in case that changes (eg, to implement un-delete)
-  (md-get td :deleted))
+  (<mget td :deleted))
 
 ; - dataflow triggering mutations
 
 (defn td-delete! [td]
   (assert td)
-  (md-reset! td :deleted (now)))
+  (mset!> td :deleted (now)))
 
 (defn td-toggle-completed! [td]
-  (md-reset! td :completed (when-not (td-completed td) (now))))
+  (mset!> td :completed (if (td-completed td)
+                             nil
+                             (now))))
 
 ;;; --- persistence, part II -------------------------------------
 ;;; An observer updates individual todos in localStorage, including
@@ -109,7 +118,7 @@
 ;;; keep the 'deleted' property on in-memory todos and handle the physical deletion
 ;;; in this same observer when we see the 'deleted' go truthy.
 
-(defmethod observe-by-type [::tiltontec.tag.example.todo/todo] [slot me new-val old-val c]
+(defmethod observe-by-type [:todomx.todo/todo] [slot me new-val old-val c]
   ;; localStorage does not update columns, so regardless of which
   ;; slot changed we update the entire instance.
 
@@ -157,4 +166,4 @@
 
 (defn- td-to-json [todo]
   (map-to-json (into {} (for [k [:id :created :title :completed :deleted :due-by]]
-                          [k (md-get todo k)]))))
+                          [k (<mget todo k)]))))
