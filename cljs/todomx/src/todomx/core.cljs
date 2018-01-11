@@ -2,7 +2,7 @@
   (:require
     [clojure.browser.repl :as repl]
     [goog.dom :as dom]
-    [tiltontec.model.core :as md]
+    [tiltontec.model.core :refer [<mget]]
     [tiltontec.tag.html :refer [tag-dom-create *tag-trace*]]
     [todomx.build :as tmx]
     [taoensso.tufte :as tufte :refer (defnp p profiled profile)]
@@ -17,12 +17,11 @@
 
 (let [root (dom/getElement "tagroot")
       app-matrix (tmx/matrix-build!)
-      app-dom (binding [*tag-trace* nil]                ;; <-- set to nil if console too noisy
-                (tag-dom-create
-                  (md/md-get app-matrix :mx-dom)))]
+      app-dom (tag-dom-create
+                (<mget app-matrix :mx-dom))]
 
   (set! (.-innerHTML root) nil)
   (dom/appendChild root app-dom)
-  (when-let [route-starter (md/md-get app-matrix :router-starter)]
+  (when-let [route-starter (<mget app-matrix :router-starter)]
     (route-starter)))
 

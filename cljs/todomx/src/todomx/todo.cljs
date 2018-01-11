@@ -124,7 +124,6 @@
   (when-not (= old-val unbound)
     (td-upsert me)))
 
-
 ;;; --- loading from localStorage ----------------
 
 (declare remake-todo)

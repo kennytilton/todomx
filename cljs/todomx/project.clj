@@ -3,7 +3,6 @@
   :url "https://github.com/kennytilton"
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.9.946"]
-                 [org.clojure/clojurescript "1.9.671"]
                  [com.cognitect/transit-cljs "0.8.243"]
                  [com.andrewmcveigh/cljs-time "0.5.2"]
                  [funcool/bide "1.5.0"]
