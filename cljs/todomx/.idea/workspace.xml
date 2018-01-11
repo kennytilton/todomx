@@ -34,11 +34,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.cljs" pinned="false" current-in-tab="false">
+      <file leaf-file-name="build.cljs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/todomx/build.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="447">
-              <caret line="215" column="81" lean-forward="false" selection-start-line="215" selection-start-column="81" selection-end-line="215" selection-end-column="81" />
+            <state relative-caret-position="132">
+              <caret line="212" column="21" lean-forward="false" selection-start-line="212" selection-start-column="21" selection-end-line="212" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -54,10 +54,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="todo_list_item.cljs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="todo_list_item.cljs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/todomx/todo_list_item.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="498">
+            <state relative-caret-position="1410">
               <caret line="94" column="36" lean-forward="false" selection-start-line="94" selection-start-column="36" selection-end-line="94" selection-end-column="36" />
               <folding />
             </state>
@@ -102,9 +102,9 @@
       <list>
         <option value="$PROJECT_DIR$/project.clj" />
         <option value="$PROJECT_DIR$/src/todomx/core.cljs" />
-        <option value="$PROJECT_DIR$/src/todomx/build.cljs" />
         <option value="$PROJECT_DIR$/src/todomx/todo.cljs" />
         <option value="$PROJECT_DIR$/src/todomx/todo_list_item.cljs" />
+        <option value="$PROJECT_DIR$/src/todomx/build.cljs" />
       </list>
     </option>
   </component>
@@ -584,14 +584,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/todomx/build.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="215" column="81" lean-forward="false" selection-start-line="215" selection-start-column="81" selection-end-line="215" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/todomx/core.cljs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
@@ -621,8 +613,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/todomx/todo_list_item.cljs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
+        <state relative-caret-position="1410">
           <caret line="94" column="36" lean-forward="false" selection-start-line="94" selection-start-column="36" selection-end-line="94" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/todomx/build.cljs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="212" column="21" lean-forward="false" selection-start-line="212" selection-start-column="21" selection-end-line="212" selection-end-column="21" />
           <folding />
         </state>
       </provider>
