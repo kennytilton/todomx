@@ -92,7 +92,6 @@
                (td-title todo))
 
         (input {:class "due-by"
-                :style "font-size:14px;border:none"
                 ::tag/type "date"
                 :value     (c?n (when-let [db (td-due-by todo)]
                                   (let [db$ (tmc/to-string (tmc/from-long db))]
@@ -100,7 +99,19 @@
                 :oninput   #(mset!> todo :due-by
                                     (tmc/to-long
                                       (tmc/from-string
-                                        (form/getValue (.-target %)))))})
+                                        (form/getValue (.-target %)))))
+                :style     (c?once (make-css-inline me
+                                     :border "none"
+                                     :font-size "14px"
+                                     :background-color (c? (when-let [clock (mxu-find-class (:tag @me) "std-clock")]
+                                                             (if-let [due (td-due-by todo)]
+                                                              (let [time-left (- due (<mget clock :clock))]
+                                                                (cond
+                                                                   (neg? time-left) "red"
+                                                                   (< time-left (* 24 3600 1000)) "coral"
+                                                                   (< time-left (* 2 24 3600 1000)) "yellow"
+                                                                   :default "green"))
+                                                              "gray")))))})
 
         (button {:class   "destroy"
                  :onclick #(td-delete! todo)}))
