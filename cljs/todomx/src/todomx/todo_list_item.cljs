@@ -114,7 +114,9 @@
                                                               "gray")))))})
 
         (button {:class   "destroy"
-                 :onclick #(td-delete! todo)}))
+                 :onclick #(td-delete! todo)})
+
+        (ae-explorer todo))
 
       (input {:class     "edit"
               :onblur    #(todo-edit % todo)
@@ -141,3 +143,41 @@
           ;; this could leave the input field with mid-edit garbage, but
           ;; that gets initialized correctly when starting editing
           (stop-editing))))))
+
+;;; --- adverse events ------------------------------------------------------------
+
+(defn de-whitespace [s]
+  ($/replace s #"\s" ""))
+
+#_(remove #{\n \r} "https://rxnav.nlm.nih.gov/REST/interaction/list.json?
+                   rxcuis=861226+1170673+1151366+316051+1738581+315971+854873+901803")
+
+(def ae-by-brand "https://api.fda.gov/drug/event.json?search=patient.drug.openfda.brand_name:~(~a~)&limit=3")
+
+(defn ae-explorer [todo]
+  (button {:class "li-show"
+           :style (c? (or (when-let [xhr (<mget me :ae)]
+                            (let [aes (xhr-response xhr)]
+                              (println :aex-aes!!! (td-title todo) (:status aes))
+                              (when (= 200 (:status aes))
+                                "display:block")))
+                          "display:none"))
+           :onclick #(js/alert "Feature not yet implemented.")}
+
+          {:ae (c?+ [:obs (fn-obs
+                            (when-not (or (= old unbound) (nil? old))
+                              ;;(println :aex-tossing-old-xhr!! old)
+                              (not-to-be old)))]
+                    (send-xhr (pp/cl-format nil ae-by-brand (td-title todo)))
+                    #_
+                    (let [chk (mxu-find-class me "ae-autocheck")]
+                      (assert chk)
+                      (println :seeing-autocheck (tagfo chk) (:on? @chk))
+                      (when (<mget chk :on?)
+                        (do
+                          (println :aex-looking-up!!!! (td-title todo))
+                          (send-xhr (pp/cl-format nil ae-by-brand (td-title todo)))))))}
+
+          (span {:style "font-size:0.7em;margin:2px;margin-top:0;vertical-align:top"}
+                "View Adverse Events")))
+
