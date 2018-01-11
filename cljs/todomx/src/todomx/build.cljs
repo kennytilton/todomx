@@ -213,7 +213,7 @@
 
 (defn mx-todos
   "Given a node in the matrix, navigate to the root and read the todos. After
-  the matrix is initially loaded (say in an event handler), one can pass nil
+  the matrix is initially loaded (say in an event handler), one can pass nilgit g
   and find the matrix in @matrix. The no-arg variant is offered as a dubious
   dev convenience (dubious since it adds the burden of knowing where one can
   safely assume the matrix atom has been loaded)."

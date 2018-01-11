@@ -46,7 +46,7 @@
             [todomx.todo
              :refer [make-todo td-title td-created bulk-todo
                      td-completed td-upsert td-delete! load-all
-                     td-id td-toggle-completed!]]
+                     td-id td-toggle-completed! td-due-by]]
             [cljs-time.coerce :as tmc]
             [clojure.string :as $]))
 
@@ -90,6 +90,17 @@
                                (classlist/add li-dom "editing")
                                (tag/input-editing-start edt-dom (td-title todo)))}
                (td-title todo))
+
+        (input {:class "due-by"
+                :style "font-size:14px;border:none"
+                ::tag/type "date"
+                :value     (c?n (when-let [db (td-due-by todo)]
+                                  (let [db$ (tmc/to-string (tmc/from-long db))]
+                                    (subs db$ 0 10))))
+                :oninput   #(mset!> todo :due-by
+                                    (tmc/to-long
+                                      (tmc/from-string
+                                        (form/getValue (.-target %)))))})
 
         (button {:class   "destroy"
                  :onclick #(td-delete! todo)}))
