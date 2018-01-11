@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/matrix/cljs/matrix.iml" filepath="$USER_HOME$/matrix/cljs/matrix.iml" />
       <module fileurl="file://$PROJECT_DIR$/todomx.iml" filepath="$PROJECT_DIR$/todomx.iml" />
     </modules>
   </component>

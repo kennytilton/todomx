@@ -14,7 +14,7 @@
     [tiltontec.cell.core
      :refer-macros [c? c?n] :refer [c-in]]
     [tiltontec.cell.observer :refer [observe-by-type]]
-    [tiltontec.model.core :as md :refer [make <mget mset!>]]
+    [tiltontec.model.core :as md :refer [make <mget mset!> mswap!>]]
     [tiltontec.util.core :as util :refer [pln now map-to-json json-to-map uuidv4]]
     [tiltontec.tag.html :refer [io-upsert io-read io-find io-truncate]]))
 
@@ -104,9 +104,8 @@
   (mset!> td :deleted (now)))
 
 (defn td-toggle-completed! [td]
-  (mset!> td :completed (if (td-completed td)
-                             nil
-                             (now))))
+  (println :bam)
+  (mswap!> td :completed #(if % nil (now))))
 
 ;;; --- persistence, part II -------------------------------------
 ;;; An observer updates individual todos in localStorage, including
