@@ -42,7 +42,8 @@
                      td-id td-toggle-completed!]]
             [todomx.todo-list-item :refer [todo-list-item]]))
 
-(declare landing-page mx-todos mx-todo-items mx-find-matrix start-router mx-route)
+(declare landing-page mx-todos mx-todo-items mx-find-matrix start-router mx-route
+         std-clock ae-autocheck?)
 
 ;;; --- the beef: matrix-build! ------------------------------------------
 
@@ -106,6 +107,7 @@
                     (h1 "todos")
                     (todo-entry-field))
             (todo-list-items)
+            (ae-autocheck?)
             (dashboard-footer))
 
    (footer {:class "info"}
@@ -223,6 +225,28 @@
                                   w (<mget me :clock)]
                               (mset!> me :clock (+ w time-step))))
                          1000))})))
+
+;; --- AE autocheck -----------------------
+
+(defn ae-autocheck? []
+  (div {:id "ae-autocheck"
+        :class "ae-autocheck"
+        :style "margin:24px"}
+    {:on? (c-in false)}
+
+    (input {:id        "ae-autocheckbox"
+            ::tag/type "checkbox"
+            :onchange #(let [on? (<mget me :on?)]
+                         (event/preventDefault %)            ;; else browser messes with checked, which we handle
+                         (mset!> me :on? (not on?)))
+            :checked   (c? (<mget (mx-par me) :on?))})
+
+    (label {:for     "ae-autocheckbox"
+            ;; a bit ugly: handler below is not in kids rule of LABEL, so 'me' is the DIV.
+            :onclick #(let [on? (<mget me :on?)]
+                        (event/preventDefault %)            ;; else browser messes with checked, which we handle
+                        (mset!> me :on? (not on?)))}
+           "Auto AE")))
 
 ;; --- convenient accessors ---------------------
 

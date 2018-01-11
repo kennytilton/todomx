@@ -50,7 +50,7 @@
             [cljs-time.coerce :as tmc]
             [clojure.string :as $]))
 
-(declare todo-edit )
+(declare todo-edit ae-explorer)
 
 (defn todo-list-item [me todo matrix]
   (println :building-li (:title @todo))
@@ -158,7 +158,6 @@
   (button {:class "li-show"
            :style (c? (or (when-let [xhr (<mget me :ae)]
                             (let [aes (xhr-response xhr)]
-                              (println :aex-aes!!! (td-title todo) (:status aes))
                               (when (= 200 (:status aes))
                                 "display:block")))
                           "display:none"))
@@ -166,17 +165,12 @@
 
           {:ae (c?+ [:obs (fn-obs
                             (when-not (or (= old unbound) (nil? old))
-                              ;;(println :aex-tossing-old-xhr!! old)
                               (not-to-be old)))]
-                    (send-xhr (pp/cl-format nil ae-by-brand (td-title todo)))
-                    #_
-                    (let [chk (mxu-find-class me "ae-autocheck")]
-                      (assert chk)
-                      (println :seeing-autocheck (tagfo chk) (:on? @chk))
-                      (when (<mget chk :on?)
-                        (do
-                          (println :aex-looking-up!!!! (td-title todo))
-                          (send-xhr (pp/cl-format nil ae-by-brand (td-title todo)))))))}
+
+                    (when (if-let [chk (mxu-find-class me "ae-autocheck")]
+                            (<mget chk :on?)
+                            true)
+                        (send-xhr (pp/cl-format nil ae-by-brand (td-title todo)))))}
 
           (span {:style "font-size:0.7em;margin:2px;margin-top:0;vertical-align:top"}
                 "View Adverse Events")))
