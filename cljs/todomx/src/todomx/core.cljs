@@ -6,7 +6,8 @@
     [tiltontec.tag.html :refer [tag-dom-create *tag-trace*]]
     [todomx.build :as tmx]
     [taoensso.tufte :as tufte :refer (defnp p profiled profile)]
-    [cljs-time.coerce :refer [from-long to-string] :as tmc]))
+    [cljs-time.coerce :refer [from-long to-string] :as tmc]
+    [todomx.gettingstarted :as start]))
 
 ;; (defonce conn
 ;;   (repl/connect "http://localhost:9000/repl"))
@@ -16,12 +17,10 @@
 (tufte/add-basic-println-handler! {})
 
 (let [root (dom/getElement "tagroot")
-      app-matrix (tmx/matrix-build!)
+      app-matrix (start/input-cells)
       app-dom (tag-dom-create
                 (<mget app-matrix :mx-dom))]
 
   (set! (.-innerHTML root) nil)
-  (dom/appendChild root app-dom)
-  (when-let [route-starter (<mget app-matrix :router-starter)]
-    (route-starter)))
+  (dom/appendChild root app-dom))
 
