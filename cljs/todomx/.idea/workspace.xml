@@ -24,24 +24,67 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="core.cljs" pinned="false" current-in-tab="false">
+      <file leaf-file-name="core.cljs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/todomx/core.cljs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="285">
-              <caret line="19" column="36" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="36" />
+              <caret line="19" column="43" lean-forward="false" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
               <folding>
-                <marker date="1515799058458" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
-                <marker date="1515799058458" expanded="true" signature="730:731" ph="(let ...)" />
+                <marker date="1515804817984" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
+                <marker date="1515804817984" expanded="true" signature="738:739" ph="(let ...)" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gettingstarted.cljs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="build.cljs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/todomx/build.cljs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="650">
+              <caret line="81" column="55" lean-forward="false" selection-start-line="67" selection-start-column="17" selection-end-line="81" selection-end-column="55" />
+              <folding>
+                <marker date="1515697963607" expanded="true" signature="1740:1821" ph="(declare landing-page ...)" />
+                <marker date="1515697963607" expanded="true" signature="9851:10217" ph="(defn mx-todos ...)" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gettingstarted.cljs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/todomx/gettingstarted.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="672">
-              <caret line="88" column="28" lean-forward="true" selection-start-line="88" selection-start-column="28" selection-end-line="88" selection-end-column="28" />
+            <state relative-caret-position="177">
+              <caret line="134" column="25" lean-forward="false" selection-start-line="134" selection-start-column="6" selection-end-line="134" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="todo_list_item.cljs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/todomx/todo_list_item.cljs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="328">
+              <caret line="52" column="20" lean-forward="false" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="xhr_test.cljc" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/checkouts/xhr/test/tiltontec/xhr_test.cljc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="605">
+              <caret line="193" column="73" lean-forward="false" selection-start-line="181" selection-start-column="12" selection-end-line="193" selection-end-column="73" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="evaluate.cljc" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/com/tiltontec/matrix/0.1.2-SNAPSHOT/matrix-0.1.2-SNAPSHOT.jar!/tiltontec/cell/evaluate.cljc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="506">
+              <caret line="238" column="6" lean-forward="false" selection-start-line="238" selection-start-column="6" selection-end-line="238" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -102,8 +145,8 @@
         <option value="$PROJECT_DIR$/src/todomx/todo.cljs" />
         <option value="$PROJECT_DIR$/src/todomx/build.cljs" />
         <option value="$PROJECT_DIR$/project.clj" />
-        <option value="$PROJECT_DIR$/src/todomx/core.cljs" />
         <option value="$PROJECT_DIR$/src/todomx/gettingstarted.cljs" />
+        <option value="$PROJECT_DIR$/src/todomx/core.cljs" />
       </list>
     </option>
   </component>
@@ -353,27 +396,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="53" lean-forward="false" selection-start-line="14" selection-start-column="53" selection-end-line="14" selection-end-column="53" />
-          <folding>
-            <marker date="1515686311867" expanded="true" signature="0:1004" ph="(defproject todomx ...)" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/todomx/build.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3120">
-          <caret line="208" column="25" lean-forward="false" selection-start-line="208" selection-start-column="25" selection-end-line="208" selection-end-column="25" />
-          <folding>
-            <marker date="1515697963607" expanded="true" signature="1740:1821" ph="(declare landing-page ...)" />
-            <marker date="1515697963607" expanded="true" signature="9851:10217" ph="(defn mx-todos ...)" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/todomvc-app-css/index.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -387,8 +409,8 @@
         <state relative-caret-position="405">
           <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
-            <marker date="1515799058458" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
-            <marker date="1515799058458" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515804817984" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
+            <marker date="1515804817984" expanded="true" signature="738:739" ph="(let ...)" />
           </folding>
         </state>
       </provider>
@@ -461,8 +483,8 @@
         <state relative-caret-position="300">
           <caret line="20" column="22" lean-forward="false" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
           <folding>
-            <marker date="1515799058458" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
-            <marker date="1515799058458" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515804817984" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
+            <marker date="1515804817984" expanded="true" signature="738:739" ph="(let ...)" />
           </folding>
         </state>
       </provider>
@@ -490,8 +512,8 @@
         <state relative-caret-position="300">
           <caret line="20" column="22" lean-forward="false" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
           <folding>
-            <marker date="1515799058458" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
-            <marker date="1515799058458" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515804817984" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
+            <marker date="1515804817984" expanded="true" signature="738:739" ph="(let ...)" />
           </folding>
         </state>
       </provider>
@@ -520,8 +542,8 @@
         <state relative-caret-position="135">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
-            <marker date="1515799058458" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
-            <marker date="1515799058458" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515804817984" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
+            <marker date="1515804817984" expanded="true" signature="738:739" ph="(let ...)" />
           </folding>
         </state>
       </provider>
@@ -602,8 +624,8 @@
         <state relative-caret-position="420">
           <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
-            <marker date="1515799058458" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
-            <marker date="1515799058458" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515804817984" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
+            <marker date="1515804817984" expanded="true" signature="738:739" ph="(let ...)" />
           </folding>
         </state>
       </provider>
@@ -659,8 +681,8 @@
         <state relative-caret-position="405">
           <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
-            <marker date="1515799058458" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
-            <marker date="1515799058458" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515804817984" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
+            <marker date="1515804817984" expanded="true" signature="738:739" ph="(let ...)" />
           </folding>
         </state>
       </provider>
@@ -746,30 +768,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/todomx/todo_list_item.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="52" column="20" lean-forward="false" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/todomvc-app-css/index.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/todomx/build.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-46">
-          <caret line="29" column="58" lean-forward="true" selection-start-line="1" selection-start-column="2" selection-end-line="29" selection-end-column="58" />
-          <folding>
-            <marker date="1515697963607" expanded="true" signature="1740:1821" ph="(declare landing-page ...)" />
-            <marker date="1515697963607" expanded="true" signature="9851:10217" ph="(defn mx-todos ...)" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -781,22 +784,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/todomx/core.cljs">
+    <entry file="jar://$MAVEN_REPOSITORY$/com/tiltontec/matrix/0.1.2-SNAPSHOT/matrix-0.1.2-SNAPSHOT.jar!/tiltontec/cell/evaluate.cljc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="36" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="36" />
+        <state relative-caret-position="506">
+          <caret line="238" column="6" lean-forward="false" selection-start-line="238" selection-start-column="6" selection-end-line="238" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/todomx/build.cljs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="650">
+          <caret line="81" column="55" lean-forward="false" selection-start-line="67" selection-start-column="17" selection-end-line="81" selection-end-column="55" />
           <folding>
-            <marker date="1515799058458" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
-            <marker date="1515799058458" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515697963607" expanded="true" signature="1740:1821" ph="(declare landing-page ...)" />
+            <marker date="1515697963607" expanded="true" signature="9851:10217" ph="(defn mx-todos ...)" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/todomx/todo_list_item.cljs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="52" column="20" lean-forward="false" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checkouts/xhr/test/tiltontec/xhr_test.cljc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="605">
+          <caret line="193" column="73" lean-forward="false" selection-start-line="181" selection-start-column="12" selection-end-line="193" selection-end-column="73" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/todomx/gettingstarted.cljs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="88" column="28" lean-forward="true" selection-start-line="88" selection-start-column="28" selection-end-line="88" selection-end-column="28" />
+        <state relative-caret-position="177">
+          <caret line="134" column="25" lean-forward="false" selection-start-line="134" selection-start-column="6" selection-end-line="134" selection-end-column="25" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/todomx/core.cljs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="43" lean-forward="false" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
+          <folding>
+            <marker date="1515804817984" expanded="true" signature="0:114" ph="(ns todomx.core ...)" />
+            <marker date="1515804817984" expanded="true" signature="738:739" ph="(let ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
