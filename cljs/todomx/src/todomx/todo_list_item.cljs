@@ -27,8 +27,7 @@
 (declare todo-edit)
 
 (defn todo-list-item [me todo matrix]
-  (li {:class   (c? #{(when (<mget me :selected?) "chosen")
-                      (when (<mget me :editing?) "editing")
+  (li {:class   (c? #{(when (<mget me :editing?) "editing")
                       (when (td-completed todo) "completed")})
 
        :display (c? (if-let [route (<mget matrix :route)]
@@ -40,7 +39,7 @@
                       "block"))}
       ;;; custom slots...
       {:todo      todo
-       ;; to-do handy to have around, and serves as key to identify lost/gained LIs, in turn to optimize list maintenance
+       ;; to-do is handy to have around, and serves as key to identify lost/gained LIs, in turn to optimize list maintenance
        :selected? (c? (some #{todo} (<mget (mxu-find-tag me :ul) :selections)))
        :editing?  (c-in false)}
 
@@ -52,13 +51,7 @@
                      :checked (c? (not (nil? (td-completed todo))))
                      :onclick #(td-toggle-completed! todo)})
 
-             (label {:onclick    (fn [evt]
-                                   (mswap!> (mx-par todo-li) :selections
-                                            #(if (some #{todo} %)
-                                               (remove #{todo} %)
-                                               (conj % todo))))
-
-                     :ondblclick #(do
+             (label {:ondblclick #(do
                                     (mset!> todo-li :editing? true)
                                     (tag/input-editing-start
                                       (dom/getElementByClass "edit" (tag-dom todo-li))
