@@ -62,24 +62,24 @@
   ;;; "writes" made by event handlers, triggering observers which manifest those
   ;;; changes usefully, in TodoMX either by updating the DOM or writing to localStorage.
 
-  #_(do ;; if needed
+  #_(do                                                     ;; if needed
       (io-clear-storage))
 
   (reset! matrix (md/make ::todoApp
-                          ;; load all to-dos into a depend-able list....
-                          :todos (todomx.todo/todo-list)
+                   ;; load all to-dos into a depend-able list....
+                   :todos (todomx.todo/todo-list)
 
-                          ;; build the matrix dom once. From here on, all DOM changes are
-                          ;; made incrementally by Tag library observers...
-                          :mx-dom (c?once (with-par me
-                                                    (landing-page)))
+                   ;; build the matrix dom once. From here on, all DOM changes are
+                   ;; made incrementally by Tag library observers...
+                   :mx-dom (c?once (with-par me
+                                             (landing-page)))
 
-                          ;; the spec wants the route persisted for some reason....
-                          :route (c?+n [:obs (fn-obs        ;; fn-obs convenience macro provides handy local vars....
-                                               (when-not (= unbound old)
-                                                 (io-upsert "todo-matrixcljs.route" new)))]
-                                       (or (io-read "todo-matrixcljs.route") "All"))
-                          :router-starter start-router)))
+                   ;; the spec wants the route persisted for some reason....
+                   :route (c?+n [:obs (fn-obs               ;; fn-obs convenience macro provides handy local vars....
+                                        (when-not (= unbound old)
+                                          (io-upsert "todo-matrixcljs.route" new)))]
+                                (or (io-read "todo-matrixcljs.route") "All"))
+                   :router-starter start-router)))
 
 ;;; --- routing -----------------------------------------
 
@@ -147,11 +147,11 @@
                {:selections  (c-in nil)
                 :kid-values  (c? (when-let [rte (mx-route me)]
                                    (sort-by td-created
-                                            (<mget (mx-todos me)
-                                                   (case rte
-                                                     "All" :items
-                                                     "Completed" :items-completed
-                                                     "Active" :items-active)))))
+                                     (<mget (mx-todos me)
+                                            (case rte
+                                              "All" :items
+                                              "Completed" :items-completed
+                                              "Active" :items-active)))))
                 :kid-key     #(<mget % :todo)
                 :kid-factory (fn [me todo]
                                (todo-list-item me todo (mx-find-matrix me)))}
@@ -206,6 +206,7 @@
                                (td-delete! td))}
                   "Clear completed")))
 
+
 ;; --- convenient accessors ---------------------
 
 (defn mx-route [mx]
@@ -232,3 +233,26 @@
 
 (defn mx-find-matrix [mx]
   (mxu-find-type mx ::todoApp))
+
+#_
+(defn todo-list-items []
+  (let [todos (<mget @matrix :todos)] ;; Lifecycle startup synchronization
+    (section {:class  "main"
+              :hidden (c? (<mget todos :empty?))}
+             (toggle-all)
+
+             (ul {:class "todo-list"}
+                 {:selections  (c-in nil)
+                  :kid-values  (c? (sort-by td-created
+                                     (<mget todos
+                                            (case (<mget (mx-find-matrix me) :route)
+                                              "All" :items
+                                              "Completed" :items-completed
+                                              "Active" :items-active))))
+                  :kid-key     #(<mget % :todo)
+                  :kid-factory (fn [me todo]
+                                 (todo-list-item me todo (mx-find-matrix me)))}
+
+                 ;; cache is prior value for this implicit
+                 ;; 'kids' slot; k-v-k uses it for diffing
+                 (kid-values-kids me cache)))))

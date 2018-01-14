@@ -17,7 +17,7 @@
 (tufte/add-basic-println-handler! {})
 
 (let [root (dom/getElement "tagroot")
-      app-matrix (start/talk-to-your-doctor)
+      app-matrix (start/formula-one)
       app-dom (tag-dom-create
                 (<mget app-matrix :mx-dom))]
 
