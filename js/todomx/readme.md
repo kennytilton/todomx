@@ -1,4 +1,4 @@
-# TodoMX for KS
+# TodoMX for JS
 
 Sailboat designers say one boat can have at most two of the three virtues of speed, comfort, and low cost. 
 
