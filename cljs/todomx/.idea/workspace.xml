@@ -12,17 +12,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="project.clj" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project.clj">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="14" column="53" lean-forward="false" selection-start-line="14" selection-start-column="53" selection-end-line="14" selection-end-column="53" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="todo.cljs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="todo.cljs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/todomx/todo.cljs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="274">
@@ -32,13 +22,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="core.cljs" pinned="false" current-in-tab="false">
+      <file leaf-file-name="core.cljs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/todomx/core.cljs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="285">
               <caret line="19" column="35" lean-forward="false" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
               <folding>
-                <marker date="1515848017216" expanded="true" signature="730:731" ph="(let ...)" />
+                <marker date="1515943323893" expanded="true" signature="730:731" ph="(let ...)" />
               </folding>
             </state>
           </provider>
@@ -57,9 +47,11 @@
       <file leaf-file-name="build.cljs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/todomx/build.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="123" column="63" lean-forward="true" selection-start-line="123" selection-start-column="63" selection-end-line="123" selection-end-column="63" />
-              <folding />
+            <state relative-caret-position="-24">
+              <caret line="123" column="63" lean-forward="false" selection-start-line="123" selection-start-column="63" selection-end-line="123" selection-end-column="63" />
+              <folding>
+                <marker date="1515943323893" expanded="true" signature="1900:2872" ph="(defn matrix-build! ...)" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -67,8 +59,18 @@
       <file leaf-file-name="todo_list_item.cljs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/todomx/todo_list_item.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="538">
-              <caret line="52" column="20" lean-forward="false" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
+            <state relative-caret-position="252">
+              <caret line="88" column="45" lean-forward="false" selection-start-line="88" selection-start-column="45" selection-end-line="88" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="2" lean-forward="false" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -323,7 +325,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="76" y="104" width="1494" height="922" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -338,7 +339,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24966533" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24966533" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -420,7 +421,7 @@
         <state relative-caret-position="405">
           <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
-            <marker date="1515848017216" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515943323893" expanded="true" signature="730:731" ph="(let ...)" />
           </folding>
         </state>
       </provider>
@@ -475,7 +476,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-908">
           <caret line="64" column="20" lean-forward="false" selection-start-line="64" selection-start-column="20" selection-end-line="64" selection-end-column="20" />
-          <folding />
+          <folding>
+            <marker date="1515943323893" expanded="true" signature="1900:2872" ph="(defn matrix-build! ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -484,7 +487,7 @@
         <state relative-caret-position="300">
           <caret line="20" column="22" lean-forward="false" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
           <folding>
-            <marker date="1515848017216" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515943323893" expanded="true" signature="730:731" ph="(let ...)" />
           </folding>
         </state>
       </provider>
@@ -510,7 +513,7 @@
         <state relative-caret-position="300">
           <caret line="20" column="22" lean-forward="false" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
           <folding>
-            <marker date="1515848017216" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515943323893" expanded="true" signature="730:731" ph="(let ...)" />
           </folding>
         </state>
       </provider>
@@ -536,7 +539,7 @@
         <state relative-caret-position="135">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
-            <marker date="1515848017216" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515943323893" expanded="true" signature="730:731" ph="(let ...)" />
           </folding>
         </state>
       </provider>
@@ -561,7 +564,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="732">
           <caret line="234" column="0" lean-forward="false" selection-start-line="234" selection-start-column="0" selection-end-line="234" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1515943323893" expanded="true" signature="1900:2872" ph="(defn matrix-build! ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -604,7 +609,7 @@
         <state relative-caret-position="420">
           <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
-            <marker date="1515848017216" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515943323893" expanded="true" signature="730:731" ph="(let ...)" />
           </folding>
         </state>
       </provider>
@@ -621,7 +626,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-993">
           <caret line="126" column="68" lean-forward="true" selection-start-line="126" selection-start-column="68" selection-end-line="126" selection-end-column="68" />
-          <folding />
+          <folding>
+            <marker date="1515943323893" expanded="true" signature="1900:2872" ph="(defn matrix-build! ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -652,7 +659,7 @@
         <state relative-caret-position="405">
           <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
-            <marker date="1515848017216" expanded="true" signature="730:731" ph="(let ...)" />
+            <marker date="1515943323893" expanded="true" signature="730:731" ph="(let ...)" />
           </folding>
         </state>
       </provider>
@@ -669,7 +676,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
           <caret line="240" column="25" lean-forward="false" selection-start-line="240" selection-start-column="25" selection-end-line="240" selection-end-column="25" />
-          <folding />
+          <folding>
+            <marker date="1515943323893" expanded="true" signature="1900:2872" ph="(defn matrix-build! ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -711,13 +720,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="2" lean-forward="false" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/todomvc-app-css/index.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -744,8 +746,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/todomx/todo_list_item.cljs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="538">
-          <caret line="52" column="20" lean-forward="false" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
+        <state relative-caret-position="252">
+          <caret line="88" column="45" lean-forward="false" selection-start-line="88" selection-start-column="45" selection-end-line="88" selection-end-column="45" />
           <folding />
         </state>
       </provider>
@@ -755,16 +757,6 @@
         <state relative-caret-position="605">
           <caret line="193" column="73" lean-forward="false" selection-start-line="181" selection-start-column="12" selection-end-line="193" selection-end-column="73" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/todomx/core.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="35" lean-forward="false" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
-          <folding>
-            <marker date="1515848017216" expanded="true" signature="730:731" ph="(let ...)" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -778,9 +770,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/todomx/build.cljs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="123" column="63" lean-forward="true" selection-start-line="123" selection-start-column="63" selection-end-line="123" selection-end-column="63" />
-          <folding />
+        <state relative-caret-position="-24">
+          <caret line="123" column="63" lean-forward="false" selection-start-line="123" selection-start-column="63" selection-end-line="123" selection-end-column="63" />
+          <folding>
+            <marker date="1515943323893" expanded="true" signature="1900:2872" ph="(defn matrix-build! ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -789,6 +783,24 @@
         <state relative-caret-position="274">
           <caret line="107" column="2" lean-forward="false" selection-start-line="107" selection-start-column="2" selection-end-line="107" selection-end-column="2" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="2" lean-forward="false" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/todomx/core.cljs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="35" lean-forward="false" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+          <folding>
+            <marker date="1515943323893" expanded="true" signature="730:731" ph="(let ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
