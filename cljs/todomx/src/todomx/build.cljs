@@ -110,7 +110,7 @@
    (footer {:class "info"}
            (p "Double-click a to-do list item to edit it.")
            (p "Created by <a href=\"https://github.com/kennytilton/kennytilton.github.io/blob/master/README.md\">Kenneth Tilton</a>.")
-           (p "Inspired by <a href=\"https://github.com/lynaghk/todoFRP\">TodoFRP</a>."))])
+           (p "Inspired by <a href=\"https://github.com/tastejs/todomvc/blob/master/app-spec.md\">TodoMVC</a>."))])
 
 ;; --- to-do Entry -----------------------------------
 

@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$USER_HOME$/matrix/cljs/matrix.iml" filepath="$USER_HOME$/matrix/cljs/matrix.iml" />
+      <module fileurl="file://$USER_HOME$/tag/cljs/tag.iml" filepath="$USER_HOME$/tag/cljs/tag.iml" />
       <module fileurl="file://$PROJECT_DIR$/todomx.iml" filepath="$PROJECT_DIR$/todomx.iml" />
+      <module fileurl="file://$USER_HOME$/xhr/cljs/xhr.iml" filepath="$USER_HOME$/xhr/cljs/xhr.iml" />
     </modules>
   </component>
 </project>
