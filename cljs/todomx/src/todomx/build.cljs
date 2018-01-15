@@ -206,6 +206,21 @@
                                (td-delete! td))}
                   "Clear completed")))
 
+
+(defn std-clock []
+  (let [steps (atom 30)]
+    (div {:class   "std-clock"
+          :content (c? (subs (.toDateString
+                               (js/Date.
+                                 (<mget me :clock)))
+                             4))}
+         {:clock  (c-in (now))
+          :ticker (c?once (js/setInterval
+                            #(when (pos? (swap! steps dec))
+                               (let [time-step (* 12 3600 1000)
+                                     w (<mget me :clock)]
+                                 (mset!> me :clock (+ w time-step))))
+                            1000))})))
 ;; --- convenient accessors ---------------------
 
 (defn mx-route [mx]
