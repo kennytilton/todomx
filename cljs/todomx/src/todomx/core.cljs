@@ -1,5 +1,6 @@
 (ns todomx.core
   (:require
+    [cljs.pprint :refer [pprint cl-format]]
     [clojure.browser.repl :as repl]
     [goog.dom :as dom]
     [tiltontec.model.core :refer [<mget]]
@@ -14,6 +15,8 @@
 (enable-console-print!)
 
 (tufte/add-basic-println-handler! {})
+
+
 
 (let [root (dom/getElement "tagroot")
       app-matrix (tmx/matrix-build!)

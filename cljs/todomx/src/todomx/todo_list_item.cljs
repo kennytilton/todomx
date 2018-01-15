@@ -73,50 +73,52 @@
        :editing   (c-in false)}
 
       (div {:class "view"}
-        (input {:class   "toggle" ::tag/type "checkbox"
-                :checked (c? (not (nil? (td-completed todo))))
-                :onclick #(td-toggle-completed! todo)})
+           (input {:class   "toggle" ::tag/type "checkbox"
+                   :checked (c? (not (nil? (td-completed todo))))
+                   :onclick #(td-toggle-completed! todo)})
 
-        (label {:onclick   (fn [evt]
-                             (mswap!> (mxu-find-tag me :ul) :selections
-                                      #(if (some #{todo} %)
-                                          (remove #{todo} %)
-                                          (conj % todo))))
+           (label {:onclick    (fn [evt]
+                                 (mswap!> (mxu-find-tag me :ul) :selections
+                                          #(if (some #{todo} %)
+                                             (remove #{todo} %)
+                                             (conj % todo))))
 
-                :ondblclick #(let [li-dom (dom/getAncestorByTagNameAndClass
-                                            (.-target %) "li")
-                                   edt-dom (dom/getElementByClass
-                                             "edit" li-dom)]
-                               (classlist/add li-dom "editing")
-                               (tag/input-editing-start edt-dom (td-title todo)))}
-               (td-title todo))
+                   :ondblclick #(let [li-dom (dom/getAncestorByTagNameAndClass
+                                               (.-target %) "li")
+                                      edt-dom (dom/getElementByClass
+                                                "edit" li-dom)]
+                                  (classlist/add li-dom "editing")
+                                  (tag/input-editing-start edt-dom (td-title todo)))}
+                  (td-title todo))
 
-        (input {:class "due-by"
-                ::tag/type "date"
-                :value     (c?n (when-let [db (td-due-by todo)]
-                                  (let [db$ (tmc/to-string (tmc/from-long db))]
-                                    (subs db$ 0 10))))
-                :oninput   #(mset!> todo :due-by
-                                    (tmc/to-long
-                                      (tmc/from-string
-                                        (form/getValue (.-target %)))))
-                :style     (c?once (make-css-inline me
-                                     :border "none"
-                                     :font-size "14px"
-                                     :background-color (c? (when-let [clock (mxu-find-class (:tag @me) "std-clock")]
-                                                             (if-let [due (td-due-by todo)]
-                                                              (let [time-left (- due (<mget clock :clock))]
-                                                                (cond
-                                                                   (neg? time-left) "red"
-                                                                   (< time-left (* 24 3600 1000)) "coral"
-                                                                   (< time-left (* 2 24 3600 1000)) "yellow"
-                                                                   :default "green"))
-                                                              "gray")))))})
+           (input {:class     "due-by"
+                   ::tag/type "date"
+                   :value     (c?n (when-let [db (td-due-by todo)]
+                                     (let [db$ (tmc/to-string (tmc/from-long db))]
+                                       (subs db$ 0 10))))
+                   :oninput   #(mset!> todo :due-by
+                                       (tmc/to-long
+                                         (tmc/from-string
+                                           (form/getValue (.-target %)))))
+                   :style     (c?once (make-css-inline me
+                                                       :border "none"
+                                                       :font-size "14px"
+                                                       :background-color (c? (when-let [clock (mxu-find-class (:tag @me) "std-clock")]
+                                                                               (if-let [due (td-due-by todo)]
+                                                                                 (if (td-completed todo)
+                                                                                   cache
+                                                                                   (let [time-left (- due (<mget clock :clock))]
+                                                                                     (cond
+                                                                                       (neg? time-left) "red"
+                                                                                       (< time-left (* 24 3600 1000)) "coral"
+                                                                                       (< time-left (* 2 24 3600 1000)) "yellow"
+                                                                                       :default "green")))
+                                                                                 "#eee")))))})
 
-        (button {:class   "destroy"
-                 :onclick #(td-delete! todo)})
+           (button {:class   "destroy"
+                    :onclick #(td-delete! todo)})
 
-        (ae-explorer todo))
+           (ae-explorer todo))
 
       (input {:class     "edit"
               :onblur    #(todo-edit % todo)
@@ -155,12 +157,12 @@
 (def ae-by-brand "https://api.fda.gov/drug/event.json?search=patient.drug.openfda.brand_name:~(~a~)&limit=3")
 
 (defn ae-explorer [todo]
-  (button {:class "li-show"
-           :style (c? (or (when-let [xhr (<mget me :ae)]
-                            (let [aes (xhr-response xhr)]
-                              (when (= 200 (:status aes))
-                                "display:block")))
-                          "display:none"))
+  (button {:class   "li-show"
+           :style   (c? (or (when-let [xhr (<mget me :ae)]
+                              (let [aes (xhr-response xhr)]
+                                (when (= 200 (:status aes))
+                                  "display:block")))
+                            "display:none"))
            :onclick #(js/alert "Feature not yet implemented.")}
 
           {:ae (c?+ [:obs (fn-obs
@@ -170,7 +172,8 @@
                     (when (if-let [chk (mxu-find-class me "ae-autocheck")]
                             (<mget chk :on?)
                             true)
-                        (send-xhr (pp/cl-format nil ae-by-brand (td-title todo)))))}
+                      (println :sending-ae (td-title todo))
+                      (send-xhr (pp/cl-format nil ae-by-brand (td-title todo)))))}
 
           (span {:style "font-size:0.7em;margin:2px;margin-top:0;vertical-align:top"}
                 "View Adverse Events")))
