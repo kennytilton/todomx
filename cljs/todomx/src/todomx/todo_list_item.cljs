@@ -27,43 +27,49 @@
 (declare todo-edit)
 
 (defn todo-list-item [me todo matrix]
-  (li {:class   (c? #{(when (<mget me :editing?) "editing")
-                      (when (td-completed todo) "completed")})
+  (li
+    ;; HTML attributes...
+    {:class   (c? #{(when (<mget me :editing?) "editing")
+                    (when (td-completed todo) "completed")})
 
-       :display (c? (if-let [route (<mget matrix :route)]
-                      (cond
-                        (or (= route "All")
-                            (xor (= route "Active")
-                                 (td-completed todo))) "block"
-                        :default "none")
-                      "block"))}
-      ;;; custom slots...
-      {:todo      todo
-       ;; to-do is handy to have around, and serves as key to identify lost/gained LIs, in turn to optimize list maintenance
-       :selected? (c? (some #{todo} (<mget (mxu-find-tag me :ul) :selections)))
-       :editing?  (c-in false)}
+     :display (c? (if-let [route (<mget matrix :route)]
+                    (cond
+                      (or (= route "All")
+                          (xor (= route "Active")
+                               (td-completed todo))) "block"
+                      :default "none")
+                    "block"))}
 
-      ;;; content......
-      (let [todo-li me]
+    ;;; custom slots...
+    {;; to-do is handy to have around, and serves as key
+     ;; to identify lost/gained LIs, in turn to optimize list maintenance
+     :todo     todo
 
-        [(div {:class "view"}
-             (input {:class   "toggle" ::tag/type "checkbox"
-                     :checked (c? (not (nil? (td-completed todo))))
-                     :onclick #(td-toggle-completed! todo)})
+     :editing? (c-in false)}
 
-             (label {:ondblclick #(do
-                                    (mset!> todo-li :editing? true)
-                                    (tag/input-editing-start
-                                      (dom/getElementByClass "edit" (tag-dom todo-li))
-                                      (td-title todo)))}
-                    (td-title todo))
+    ;;; content......
+    (let [todo-li me]
 
-             (button {:class   "destroy"
-                      :onclick #(td-delete! todo)}))
+      [(div {:class "view"}
+            (input {:class   "toggle" ::tag/type "checkbox"
+                    :checked (c? (not (nil? (td-completed todo))))
+                    :onclick #(td-toggle-completed! todo)})
 
-        (input {:class     "edit"
-                :onblur    #(todo-edit % todo-li)
-                :onkeydown #(todo-edit % todo-li)})])))
+            (label {:ondblclick #(do
+                                   (mset!> todo-li :editing? true)
+                                   (tag/input-editing-start
+                                     (dom/getElementByClass "edit" (tag-dom todo-li))
+                                     (td-title todo)))}
+                   (td-title todo))
+
+            (button {:class   "destroy"
+                     :onclick #(td-delete! todo)}))
+
+       (letfn [(todo-edt [event]
+                 (todo-edit event todo-li))]
+         (input {:class     "edit"
+               :onblur    todo-edt
+               :onkeydown todo-edt}))])))
 
 
 (defn todo-edit [e todo-li]
