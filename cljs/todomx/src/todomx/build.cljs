@@ -231,7 +231,7 @@
   (div {:id "ae-autocheck"
         :class "ae-autocheck"
         :style "margin:24px"}
-    {:on? (c-in false)}
+    {:on? (c-in true)}
 
     (input {:id        "ae-autocheckbox"
             ::tag/type "checkbox"

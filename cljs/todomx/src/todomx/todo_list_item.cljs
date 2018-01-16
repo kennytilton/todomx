@@ -97,6 +97,8 @@
 
              (due-by-input todo)
 
+             (ae-explorer todo)
+
              (button {:class   "destroy"
                       :onclick #(td-delete! todo)}))
 
