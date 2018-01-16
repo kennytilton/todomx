@@ -45,14 +45,14 @@
       <file leaf-file-name="core.cljs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/todomx/core.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="8" lean-forward="false" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
+            <state relative-caret-position="465">
+              <caret line="31" column="44" lean-forward="false" selection-start-line="31" selection-start-column="44" selection-end-line="31" selection-end-column="44" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.cljs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="build.cljs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/todomx/build.cljs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="310">
@@ -72,11 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="todo_list_item.cljs" pinned="false" current-in-tab="false">
+      <file leaf-file-name="todo_list_item.cljs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/todomx/todo_list_item.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="182" column="71" lean-forward="false" selection-start-line="182" selection-start-column="60" selection-end-line="182" selection-end-column="71" />
+            <state relative-caret-position="483">
+              <caret line="178" column="17" lean-forward="true" selection-start-line="178" selection-start-column="17" selection-end-line="178" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -142,10 +142,10 @@
         <option value="$USER_HOME$/matrix/cljs/src/tiltontec/cell/base.cljc" />
         <option value="$USER_HOME$/xhr/cljs/src/tiltontec/xhr.cljc" />
         <option value="$PROJECT_DIR$/src/clojurenyc/nyc20180117.cljs" />
-        <option value="$PROJECT_DIR$/src/todomx/core.cljs" />
         <option value="$PROJECT_DIR$/src/todomx/todo.cljs" />
-        <option value="$PROJECT_DIR$/src/todomx/todo_list_item.cljs" />
         <option value="$PROJECT_DIR$/src/todomx/build.cljs" />
+        <option value="$PROJECT_DIR$/src/todomx/core.cljs" />
+        <option value="$PROJECT_DIR$/src/todomx/todo_list_item.cljs" />
       </list>
     </option>
   </component>
@@ -741,14 +741,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/todomx/core.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="8" lean-forward="false" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/todomx/todo.cljs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-208">
@@ -757,18 +749,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/todomx/todo_list_item.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="182" column="71" lean-forward="false" selection-start-line="182" selection-start-column="60" selection-end-line="182" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/todomx/build.cljs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="310">
           <caret line="233" column="20" lean-forward="false" selection-start-line="233" selection-start-column="20" selection-end-line="233" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/todomx/core.cljs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="31" column="44" lean-forward="false" selection-start-line="31" selection-start-column="44" selection-end-line="31" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/todomx/todo_list_item.cljs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="178" column="17" lean-forward="true" selection-start-line="178" selection-start-column="17" selection-end-line="178" selection-end-column="17" />
           <folding />
         </state>
       </provider>

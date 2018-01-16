@@ -74,7 +74,7 @@
 
          :selected? (c? (some #{todo} (<mget ul-tag :selections)))
 
-         :editing?   (c-in false)}
+         :editing?  (c-in false)}
 
         (let [todo-li me]
           [(div {:class "view"}
@@ -179,12 +179,9 @@
           {:ae (c?+ [:obs (fn-obs
                             (when-not (or (= old unbound) (nil? old))
                               (not-to-be old)))]
-
-                    (when (if-let [chk (mxu-find-class me "ae-autocheck")]
-                            (<mget chk :on?)
-                            true)
-                      (println :sending-ae (td-title todo))
-                      (send-xhr (pp/cl-format nil ae-by-brand (td-title todo)))))}
+                 (when (<mget (mxu-find-class me "ae-autocheck") :on?)
+                   (send-xhr (pp/cl-format nil ae-by-brand
+                                           (js/encodeURIComponent (td-title todo))))))}
 
           (span {:style "font-size:0.7em;margin:2px;margin-top:0;vertical-align:top"}
                 "View Adverse Events")))
