@@ -31,7 +31,8 @@
                      xhr-selection xhr-to-map xhr-name-to-map xhr-response]]
 
             [tiltontec.tag.gen
-             :refer-macros [section header h1 input footer p a span label ul li div button br]
+             :refer-macros [section header h1 input footer p a
+                            span label ul li div button br]
              :refer [dom-tag evt-tag]]
 
             [tiltontec.tag.style :refer [make-css-inline]]
@@ -50,88 +51,69 @@
             [cljs-time.coerce :as tmc]
             [clojure.string :as $]))
 
-(declare todo-edit ae-explorer)
+(declare todo-edit
+         ae-explorer
+         due-by-input)
 
 (defn todo-list-item [me todo matrix]
-  (println :building-li (:title @todo))
-  (li {:class   (c? [(when (<mget me :selected?) "chosen")
-                     (when (td-completed todo) "completed")])
+  (let [ul-tag me]
+    (li {:class   (c? [(when (<mget me :selected?) "chosen")
+                       (when (<mget me :editing?) "editing")
+                       (when (td-completed todo) "completed")])
 
-       :display (c? (if-let [route (<mget matrix :route)]
-                      (cond
-                        (or (= route "All")
-                            (xor (= route "Active")
-                                 (td-completed todo))) "block"
-                        :default "none")
-                      "block"))}
-      ;;; custom slots..
-      {:todo      todo
-       ;; above is also key to identify lost/gained LIs, in turn to optimize list maintenance
+         :display (c? (if-let [route (<mget matrix :route)]
+                        (cond
+                          (or (= route "All")
+                              (xor (= route "Active")
+                                   (td-completed todo))) "block"
+                          :default "none")
+                        "block"))}
+        ;;; custom slots..
+        {:todo      todo
+         ;; above is also key to identify lost/gained LIs, in turn to optimize list maintenance
 
-       :selected? (c? (some #{todo} (<mget (mxu-find-tag me :ul) :selections)))
+         :selected? (c? (some #{todo} (<mget ul-tag :selections)))
 
-       :editing   (c-in false)}
+         :editing?   (c-in false)}
 
-      (div {:class "view"}
-           (input {:class   "toggle" ::tag/type "checkbox"
-                   :checked (c? (not (nil? (td-completed todo))))
-                   :onclick #(td-toggle-completed! todo)})
+        (let [todo-li me]
+          [(div {:class "view"}
+             (input {:class   "toggle" ::tag/type "checkbox"
+                     :checked (c? (not (nil? (td-completed todo))))
+                     :onclick #(td-toggle-completed! todo)})
 
-           (label {:onclick    (fn [evt]
-                                 (mswap!> (mxu-find-tag me :ul) :selections
-                                          #(if (some #{todo} %)
-                                             (remove #{todo} %)
-                                             (conj % todo))))
+             (label {:onclick    (fn [evt]
+                                   (mswap!> ul-tag :selections
+                                            #(if (some #{todo} %)
+                                               (remove #{todo} %)
+                                               (conj % todo))))
 
-                   :ondblclick #(let [li-dom (dom/getAncestorByTagNameAndClass
-                                               (.-target %) "li")
-                                      edt-dom (dom/getElementByClass
-                                                "edit" li-dom)]
-                                  (classlist/add li-dom "editing")
-                                  (tag/input-editing-start edt-dom (td-title todo)))}
-                  (td-title todo))
+                     :ondblclick #(do
+                                    (mset!> todo-li :editing? true)
+                                    (tag/input-editing-start
+                                      (dom/getElementByClass "edit" (tag-dom todo-li))
+                                      (td-title todo)))}
+                    (td-title todo))
 
-           (input {:class     "due-by"
-                   ::tag/type "date"
-                   :value     (c?n (when-let [db (td-due-by todo)]
-                                     (let [db$ (tmc/to-string (tmc/from-long db))]
-                                       (subs db$ 0 10))))
-                   :oninput   #(mset!> todo :due-by
-                                       (tmc/to-long
-                                         (tmc/from-string
-                                           (form/getValue (.-target %)))))
-                   :style     (c?once (make-css-inline me
-                                                       :border "none"
-                                                       :font-size "14px"
-                                                       :background-color (c? (when-let [clock (mxu-find-class (:tag @me) "std-clock")]
-                                                                               (if-let [due (td-due-by todo)]
-                                                                                 (if (td-completed todo)
-                                                                                   cache
-                                                                                   (let [time-left (- due (<mget clock :clock))]
-                                                                                     (cond
-                                                                                       (neg? time-left) "red"
-                                                                                       (< time-left (* 24 3600 1000)) "coral"
-                                                                                       (< time-left (* 2 24 3600 1000)) "yellow"
-                                                                                       :default "green")))
-                                                                                 "#eee")))))})
+             (due-by-input todo)
 
-           (button {:class   "destroy"
-                    :onclick #(td-delete! todo)})
+             (button {:class   "destroy"
+                      :onclick #(td-delete! todo)}))
 
-           (ae-explorer todo))
+           (letfn [(todo-edt [event]
+                     (todo-edit event todo-li))]
+             (input {:class     "edit"
+                     :onblur    todo-edt
+                     :onkeydown todo-edt}))]))))
 
-      (input {:class     "edit"
-              :onblur    #(todo-edit % todo)
-              :onkeydown #(todo-edit % todo)})))
-
-
-(defn todo-edit [e todo]
+(defn todo-edit [e todo-li]
   (let [edt-dom (.-target e)
-        li-dom (dom/getAncestorByTagNameAndClass edt-dom "li")]
+        todo (<mget todo-li :todo)
+        li-dom (tag-dom todo-li)]
 
     (when (classlist/contains li-dom "editing")
       (let [title (str/trim (form/getValue edt-dom))
-            stop-editing #(classlist/remove li-dom "editing")]
+            stop-editing #(mset!> todo-li :editing? false)]
         (cond
           (or (= (.-type e) "blur")
               (= (.-key e) "Enter"))
@@ -145,6 +127,33 @@
           ;; this could leave the input field with mid-edit garbage, but
           ;; that gets initialized correctly when starting editing
           (stop-editing))))))
+
+;;; --- due-by input -------------------------------------------
+
+(defn due-by-input [todo]
+  (input {:class     "due-by"
+          ::tag/type "date"
+          :value     (c?n (when-let [db (td-due-by todo)]
+                            (let [db$ (tmc/to-string (tmc/from-long db))]
+                              (subs db$ 0 10))))
+          :oninput   #(mset!> todo :due-by
+                              (tmc/to-long
+                                (tmc/from-string
+                                  (form/getValue (.-target %)))))
+          :style     (c?once (make-css-inline me
+                               :border "none"
+                               :font-size "14px"
+                               :background-color (c? (when-let [clock (mxu-find-class (:tag @me) "std-clock")]
+                                                       (if-let [due (td-due-by todo)]
+                                                         (if (td-completed todo)
+                                                           cache
+                                                           (let [time-left (- due (<mget clock :clock))]
+                                                             (cond
+                                                               (neg? time-left) "red"
+                                                               (< time-left (* 24 3600 1000)) "coral"
+                                                               (< time-left (* 2 24 3600 1000)) "yellow"
+                                                               :default "green")))
+                                                         "#e8e8e8")))))}))
 
 ;;; --- adverse events ------------------------------------------------------------
 

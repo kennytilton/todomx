@@ -73,7 +73,7 @@
                           ;; build the matrix dom once. From here on, all DOM changes are
                           ;; made incrementally by Tag library observers...
                           :mx-dom (c?once (with-par me
-                                                    (landing-page)))
+                                            (landing-page)))
 
                           ;; the spec wants the route persisted for some reason....
                           :route (c?+n [:obs (fn-obs        ;; fn-obs convenience macro provides handy local vars....
@@ -102,18 +102,18 @@
 
 (defn landing-page []
   [(section {:class "todoapp"}
-            (std-clock)
-            (header {:class "header"}
-                    (h1 "todos")
-                    (todo-entry-field))
-            (todo-list-items)
-            (ae-autocheck?)
-            (dashboard-footer))
+     (std-clock)
+     (header {:class "header"}
+             (h1 "todos")
+             (todo-entry-field))
+     (todo-list-items)
+     (ae-autocheck?)
+     (dashboard-footer))
 
    (footer {:class "info"}
-           (p "Double-click a to-do list item to edit it.")
-           (p "Created by <a href=\"https://github.com/kennytilton/kennytilton.github.io/blob/master/README.md\">Kenneth Tilton</a>.")
-           (p "Inspired by <a href=\"https://github.com/lynaghk/todoFRP\">TodoFRP</a>."))])
+     (p "Double-click a to-do list item to edit it.")
+     (p "Created by <a href=\"https://github.com/kennytilton/kennytilton.github.io/blob/master/README.md\">Kenneth Tilton</a>.")
+     (p "Inspired by <a href=\"http://todomvc.com/\">TodoMVC</a>."))])
 
 ;; --- to-do Entry -----------------------------------
 
@@ -148,13 +148,12 @@
                ;; This is overkill for short TodoMVC to-do lists -- just demonstrating the capability.
 
                {:selections  (c-in nil)
-                :kid-values  (c? (when-let [rte (mx-route me)]
-                                   (sort-by td-created
-                                            (<mget (mx-todos me)
-                                                   (case rte
-                                                     "All" :items
-                                                     "Completed" :items-completed
-                                                     "Active" :items-active)))))
+                :kid-values  (c? (sort-by td-created
+                                   (<mget (mx-todos me)
+                                          (case (mx-route me)
+                                            "All" :items
+                                            "Completed" :items-completed
+                                            "Active" :items-active))))
                 :kid-key     #(<mget % :todo)
                 :kid-factory (fn [me todo]
                                (todo-list-item me todo (mx-find-matrix me)))}

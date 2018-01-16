@@ -31,85 +31,84 @@
 (def TODO_LS_PREFIX "todos-todomx.")
 
 (defn todo-list []
-      (md/make ::todo-list
-               :items-raw (c?n (load-all))
-               :items (c? (p :items (doall (remove td-deleted (<mget me :items-raw)))))
+  (md/make ::todo-list
+    :items-raw (c?n (load-all))
+    :items (c? (p :items (doall (remove td-deleted (<mget me :items-raw)))))
 
-               ;; the TodoMVC challenge has a requirement that routes "go thru the
-               ;; the model". (Some of us just toggled the hidden attribute appropriately
-               ;; and avoided the DOM add/removal.) An exemplar they provided had the view
-               ;; examine the route and ask the model for different subsets using different
-               ;; functions for each subset. For fun we used dedicated cells:
+    ;; the TodoMVC challenge has a requirement that routes "go thru the
+    ;; the model". (Some of us just toggled the hidden attribute appropriately
+    ;; and avoided the DOM add/removal.) An exemplar they provided had the view
+    ;; examine the route and ask the model for different subsets using different
+    ;; functions for each subset. For fun we used dedicated cells:
 
-               :items-completed (c? (p :completed (doall (filter td-completed (<mget me :items)))))
-               :items-active (c? (p :active (doall (remove td-completed (<mget me :items)))))
+    :items-completed (c? (p :completed (doall (filter td-completed (<mget me :items)))))
+    :items-active (c? (p :active (doall (remove td-completed (<mget me :items)))))
 
-               ;; two DIVs want to hide if there are no to-dos, so we dedicate a cell
-               ;; to that semantic. Yes, this could be a function, but then the Cell
-               ;; calling that function would recompute unecessarily each time a to-do
-               ;; was added or removed. In fact, the 'empty?' state changes only when
-               ;; the count goes to or from zero, so we avoid recomputing two "hiddens"
-               ;; unnecessarily when the count changes, say, from 2 to 3.
+    ;; two DIVs want to hide if there are no to-dos, so we dedicate a cell
+    ;; to that semantic. Yes, this could be a function, but then the Cell
+    ;; calling that function would recompute unecessarily each time a to-do
+    ;; was added or removed. In fact, the 'empty?' state changes only when
+    ;; the count goes to or from zero, so we avoid recomputing two "hiddens"
+    ;; unnecessarily when the count changes, say, from 2 to 3.
 
-               :empty? (c? (nil? (first (<mget me :items))))))
+    :empty? (c? (nil? (first (<mget me :items))))))
 
 (defn make-todo
-      "Make a matrix incarnation of a todo on initial entry"
-      [islots]
+  "Make a matrix incarnation of a todo on initial entry"
+  [islots]
 
-      (let [net-slots (merge
-                        {:type      ::todo
-                         :id        (str TODO_LS_PREFIX (uuidv4))
-                         :created   (now)
+  (let [net-slots (merge
+                    {:type      ::todo
+                     :id        (str TODO_LS_PREFIX (uuidv4))
+                     :created   (now)
 
-                         ;; now wrap mutable slots as Cells...
-                         :title     (c-in (:title islots))
-                         :due-by    nil #_(+ (now) (* 4 24 60 60 1000))
-                         :completed (c-in nil)
-                         :deleted   (c-in nil)})
+                     ;; now wrap mutable slots as Cells...
+                     :title     (c-in (:title islots))
+                     :due-by    nil #_(+ (now) (* 4 24 60 60 1000))
+                     :completed (c-in nil)
+                     :deleted   (c-in nil)})
 
-            todo (apply md/make (flatten (into [] net-slots)))]
+        todo (apply md/make (flatten (into [] net-slots)))]
 
-           (td-upsert todo)
-           todo))
+    (td-upsert todo)
+    todo))
 
 (defn bulk-todo [prefix ct]
-      (dotimes [n ct]
-               (make-todo {:title (str prefix n)})))
+  (dotimes [n ct]
+    (make-todo {:title (str prefix n)})))
 
 ;;; --- handy accessors to hide <mget / mset!> ------------------
 
 (defn td-created [td]
-      ;; created is not a Cell because it never changes, but we use the <mget API anyway
-      ;; just in case that changes. (<mget can handle normal slots not wrapped in cells.)
-      (<mget td :created))
+  ;; created is not a Cell because it never changes, but we use the <mget API anyway
+  ;; just in case that changes. (<mget can handle normal slots not wrapped in cells.)
+  (<mget td :created))
 
 (defn td-title [td]
-      (<mget td :title))
+  (<mget td :title))
 
 (defn td-id [td]
-      (<mget td :id))
+  (<mget td :id))
 
 (defn td-due-by [td]
-      (<mget td :due-by))
+  (<mget td :due-by))
 
 (defn td-completed [td]
-      (<mget td :completed))
+  (<mget td :completed))
 
 (defn td-deleted [td]
-      ;; created is not a Cell because it never changes, but we use the <mget API anyway
-      ;; just in case that changes (eg, to implement un-delete)
-      (<mget td :deleted))
+  ;; created is not a Cell because it never changes, but we use the <mget API anyway
+  ;; just in case that changes (eg, to implement un-delete)
+  (<mget td :deleted))
 
 ; - dataflow triggering mutations
 
 (defn td-delete! [td]
-      (assert td)
-      (mset!> td :deleted (now)))
+  (assert td)
+  (mset!> td :deleted (now)))
 
 (defn td-toggle-completed! [td]
-      (println :bam)
-      (mswap!> td :completed #(if % nil (now))))
+  (mswap!> td :completed #(if % nil (now))))
 
 ;;; --- persistence, part II -------------------------------------
 ;;; An observer updates individual todos in localStorage, including
@@ -118,50 +117,51 @@
 ;;; in this same observer when we see the 'deleted' go truthy.
 
 (defmethod observe-by-type [:todomx.todo/todo] [slot me new-val old-val c]
-           ;; localStorage does not update columns, so regardless of which
-           ;; slot changed we update the entire instance.
+  ;; localStorage does not update columns, so regardless of which
+  ;; slot changed we update the entire instance.
 
-           ;; unbound as the prior value means this is the initial observation fired off
-           ;; on instance initialization (to get them into the game, if you will), so skip upsert
-           ;; since we store explicitly after making a new todo.
+  ;; unbound as the prior value means this is the initial observation fired off
+  ;; on instance initialization (to get them into the game, if you will), so skip upsert
+  ;; since we store explicitly after making a new todo.
 
-           (when-not (= old-val unbound)
-                     (td-upsert me)))
+  (when-not (= old-val unbound)
+    (td-upsert me)))
 
 ;;; --- loading from localStorage ----------------
 
 (declare remake-todo)
 
 (defn- load-all []
-       (let [keys (io-find TODO_LS_PREFIX)]
-            (map (fn [td-id]
-                     (remake-todo
-                       (json-to-map
-                         (.parse js/JSON (io-read td-id)))))
-                 (io-find TODO_LS_PREFIX))))
+  (let [keys (io-find TODO_LS_PREFIX)]
+    (map (fn [td-id]
+           (remake-todo
+             (json-to-map
+               (.parse js/JSON (io-read td-id)))))
+         (io-find TODO_LS_PREFIX))))
 
 (defn- remake-todo [islots]
-       (apply md/make
-              (flatten
-                (into []
-                      (merge islots
-                             {:type      ::todo
-                              ;; we wrap in cells those reloaded slots we might mutate...
-                              :title     (c-in (:title islots))
-                              :due-by    (c-in (:due-by islots))
-                              :completed (c-in (:completed islots))
-                              :deleted   (or (:deleted islots)
-                                             (c-in nil))})))))
+  (apply md/make
+         (flatten
+           (into []
+                 (merge islots
+                        {:type      ::todo
+                         ;; we wrap in cells those reloaded slots we might mutate...
+                         :title     (c-in (:title islots))
+                         :due-by    (c-in (:due-by islots))
+                         :completed (c-in (:completed islots))
+                         :deleted   (or (:deleted islots)
+                                        (c-in nil))})))))
 
 ;;; ---- uodating in localStorage ----------------------
 
 (declare td-to-json)
 
 (defn- td-upsert [td]
-       (io-upsert (:id @td)
-                  (.stringify js/JSON
-                              (td-to-json td))))
+  (io-upsert (:id @td)
+             (.stringify js/JSON
+                         (td-to-json td))))
 
 (defn- td-to-json [todo]
-       (map-to-json (into {} (for [k [:id :created :title :due-by :completed :deleted]]
-                                  [k (<mget todo k)]))))
+  (map-to-json (into {} (for [k [:id :created :title :due-by :completed :deleted]]
+                          [k (<mget todo k)]))))
+
