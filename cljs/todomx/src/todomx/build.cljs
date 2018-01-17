@@ -28,6 +28,7 @@
              :refer [dom-tag evt-tag]]
 
             [tiltontec.tag.style :refer [make-css-inline]]
+            [tiltontec.tag.widget :refer [tag-checkbox]]
 
             [goog.dom :as dom]
             [goog.dom.classlist :as classlist]
@@ -104,7 +105,7 @@
   [(section {:class "todoapp"}
      (std-clock)
      (header {:class "header"}
-             (h1 "todos")
+             (h1 "mediTrak")
              (todo-entry-field))
      (todo-list-items)
      (ae-autocheck?)
@@ -227,25 +228,11 @@
 
 ;; --- AE autocheck -----------------------
 
-(defn ae-autocheck? []
-  (div {:id "ae-autocheck"
-        :class "ae-autocheck"
-        :style "margin:24px"}
-    {:on? (c-in true)}
-
-    (input {:id        "ae-autocheckbox"
-            ::tag/type "checkbox"
-            :onchange #(let [on? (<mget me :on?)]
-                         (event/preventDefault %)            ;; else browser messes with checked, which we handle
-                         (mset!> me :on? (not on?)))
-            :checked   (c? (<mget (mx-par me) :on?))})
-
-    (label {:for     "ae-autocheckbox"
-            ;; a bit ugly: handler below is not in kids rule of LABEL, so 'me' is the DIV.
-            :onclick #(let [on? (<mget me :on?)]
-                        (event/preventDefault %)            ;; else browser messes with checked, which we handle
-                        (mset!> me :on? (not on?)))}
-           "Auto AE")))
+(defn ae-autocheck? [me]
+  (tag-checkbox me "ae-autocheck"
+    "Auto-check AEs?" false
+    {:class "ae-autocheck"
+     :style "font-size:1.2em;margin:24px"}))
 
 ;; --- convenient accessors ---------------------
 

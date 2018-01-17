@@ -183,6 +183,22 @@
                    (send-xhr (pp/cl-format nil ae-by-brand
                                            (js/encodeURIComponent (td-title todo))))))}
 
-          (span {:style "font-size:0.7em;margin:2px;margin-top:0;vertical-align:top"}
+          (span {:style "font-size:0.5em;margin:2px;margin-top:0;vertical-align:top"}
                 "View Adverse Events")))
 
+(defn ae-explorer [todo]
+  (button {:class   "li-show"
+           :style   (c? (or (when-let [xhr (<mget me :ae)]
+                              (let [aes (xhr-response xhr)]
+                                (when (= 200 (:status aes))
+                                  "display:block")))
+                            "display:none"))
+           :onclick #(js/alert "Feature not yet implemented.")}
+
+          {:ae (c? (when (<mget (mxu-find-class me "ae-autocheck") :on?)
+                     (send-xhr
+                       (pp/cl-format nil ae-by-brand
+                         (js/encodeURIComponent (td-title todo))))))}
+
+          (span {:style "font-size:0.7em;margin:2px;margin-top:0;vertical-align:top"}
+                "View Adverse Events")))
