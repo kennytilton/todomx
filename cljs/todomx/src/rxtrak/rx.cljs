@@ -2,11 +2,11 @@
 ;; The "model" to-do, a matrix incarnaton of to-dos maintained in localStorage
 ;; Here we:
 ;; -- load any existing to-dos into the matrix at start-up;
-;; -- create new matrix todos and store them immediately;
+;; -- create new matrix rxs and store them immediately;
 ;; -- then persist them when they change (including setting a logical deletion value.
 ;;
 
-(ns todomx.todo
+(ns rxtrak.rx
   (:require
     [clojure.string :as str]
     [taoensso.tufte :as tufte :refer-macros (defnp p profiled profile)]
@@ -18,22 +18,22 @@
     [tiltontec.util.core :as util :refer [pln now map-to-json json-to-map uuidv4]]
     [tiltontec.tag.html :refer [io-upsert io-read io-find io-truncate]]))
 
-;;; FYI: every implementation I looked at stores all Todos as a single blob in
+;;; FYI: every implementation I looked at stores all rxs as a single blob in
 ;;; localStorage. The TodoMVC spec does not require anything more, but it seems
-;;; unrealistic. This implementation stores/updates each todo individually. We
+;;; unrealistic. This implementation stores/updates each rx individually. We
 ;;; also record 'completed' as a timestamp (not just a boolean), track a 'created'
 ;;; timestamp, and use a 'deleted' timestamp to support logical deletion.
 ;;; That is just how we would build any real world app (and storing the to-dos
 ;;; individually actually simplifies some of the code.)
 
-(declare td-upsert td-deleted td-completed load-all)
+(declare rx-upsert rx-deleted rx-completed load-all)
 
-(def TODO_LS_PREFIX "todos-todomx.")
+(def RX_LS_PREFIX "rx-rxtrak.")
 
-(defn todo-list []
-  (md/make ::todo-list
+(defn rx-list []
+  (md/make ::rx-list
     :items-raw (c?n (load-all))
-    :items (c? (p :items (doall (remove td-deleted (<mget me :items-raw)))))
+    :items (c? (p :items (doall (remove rx-deleted (<mget me :items-raw)))))
 
     ;; the TodoMVC challenge has a requirement that routes "go thru the
     ;; the model". (Some of us just toggled the hidden attribute appropriately
@@ -41,8 +41,8 @@
     ;; examine the route and ask the model for different subsets using different
     ;; functions for each subset. For fun we used dedicated cells:
 
-    :items-completed (c? (p :completed (doall (filter td-completed (<mget me :items)))))
-    :items-active (c? (p :active (doall (remove td-completed (<mget me :items)))))
+    :items-completed (c? (p :completed (doall (filter rx-completed (<mget me :items)))))
+    :items-active (c? (p :active (doall (remove rx-completed (<mget me :items)))))
 
     ;; two DIVs want to hide if there are no to-dos, so we dedicate a cell
     ;; to that semantic. Yes, this could be a function, but then the Cell
@@ -53,13 +53,13 @@
 
     :empty? (c? (nil? (first (<mget me :items))))))
 
-(defn make-todo
-  "Make a matrix incarnation of a todo on initial entry"
+(defn make-rx
+  "Make a matrix incarnation of an rx on initial entry"
   [islots]
 
   (let [net-slots (merge
-                    {:type      ::todo
-                     :id        (str TODO_LS_PREFIX (uuidv4))
+                    {:type      ::rx
+                     :id        (str RX_LS_PREFIX (uuidv4))
                      :created   (now)
 
                      ;; now wrap mutable slots as Cells...
@@ -68,83 +68,83 @@
                      :completed (c-in nil)
                      :deleted   (c-in nil)})
 
-        todo (apply md/make (flatten (into [] net-slots)))]
+        rx (apply md/make (flatten (into [] net-slots)))]
 
-    (td-upsert todo)
-    todo))
+    (rx-upsert rx)
+    rx))
 
-(defn bulk-todo [prefix ct]
+(defn bulk-rx [prefix ct]
   (dotimes [n ct]
-    (make-todo {:title (str prefix n)})))
+    (make-rx {:title (str prefix n)})))
 
 ;;; --- handy accessors to hide <mget / mset!> ------------------
 
-(defn td-created [td]
+(defn rx-created [td]
   ;; created is not a Cell because it never changes, but we use the <mget API anyway
   ;; just in case that changes. (<mget can handle normal slots not wrapped in cells.)
   (<mget td :created))
 
-(defn td-title [td]
+(defn rx-title [td]
   (<mget td :title))
 
-(defn td-id [td]
+(defn rx-id [td]
   (<mget td :id))
 
-(defn td-due-by [td]
+(defn rx-due-by [td]
   (<mget td :due-by))
 
-(defn td-completed [td]
+(defn rx-completed [td]
   (<mget td :completed))
 
-(defn td-deleted [td]
+(defn rx-deleted [td]
   ;; created is not a Cell because it never changes, but we use the <mget API anyway
   ;; just in case that changes (eg, to implement un-delete)
   (<mget td :deleted))
 
 ; - dataflow triggering mutations
 
-(defn td-delete! [td]
+(defn rx-delete! [td]
   (assert td)
   (mset!> td :deleted (now)))
 
-(defn td-toggle-completed! [td]
+(defn rx-toggle-completed! [td]
   (mswap!> td :completed #(if % nil (now))))
 
 ;;; --- persistence, part II -------------------------------------
-;;; An observer updates individual todos in localStorage, including
+;;; An observer updates individual rxs in localStorage, including
 ;;; the 'deleted' property. If we wanted to delete physically, we could
-;;; keep the 'deleted' property on in-memory todos and handle the physical deletion
+;;; keep the 'deleted' property on in-memory rxs and handle the physical deletion
 ;;; in this same observer when we see the 'deleted' go truthy.
 
-(defmethod observe-by-type [:todomx.todo/todo] [slot me new-val old-val c]
+(defmethod observe-by-type [:rxtrak.rx/rx] [slot me new-val old-val c]
   ;; localStorage does not update columns, so regardless of which
   ;; slot changed we update the entire instance.
 
   ;; unbound as the prior value means this is the initial observation fired off
   ;; on instance initialization (to get them into the game, if you will), so skip upsert
-  ;; since we store explicitly after making a new todo.
+  ;; since we store explicitly after making a new rx.
 
   (when-not (= old-val unbound)
-    (td-upsert me)))
+    (rx-upsert me)))
 
 ;;; --- loading from localStorage ----------------
 
-(declare remake-todo)
+(declare remake-rx)
 
 (defn- load-all []
-  (let [keys (io-find TODO_LS_PREFIX)]
-    (map (fn [td-id]
-           (remake-todo
+  (let [keys (io-find RX_LS_PREFIX)]
+    (map (fn [rx-id]
+           (remake-rx
              (json-to-map
-               (.parse js/JSON (io-read td-id)))))
-         (io-find TODO_LS_PREFIX))))
+               (.parse js/JSON (io-read rx-id)))))
+         (io-find RX_LS_PREFIX))))
 
-(defn- remake-todo [islots]
+(defn- remake-rx [islots]
   (apply md/make
          (flatten
            (into []
                  (merge islots
-                        {:type      ::todo
+                        {:type      ::rx
                          ;; we wrap in cells those reloaded slots we might mutate...
                          :title     (c-in (:title islots))
                          :due-by    (c-in (:due-by islots))
@@ -154,14 +154,14 @@
 
 ;;; ---- uodating in localStorage ----------------------
 
-(declare td-to-json)
+(declare rx-to-json)
 
-(defn- td-upsert [td]
+(defn- rx-upsert [td]
   (io-upsert (:id @td)
              (.stringify js/JSON
-                         (td-to-json td))))
+                         (rx-to-json td))))
 
-(defn- td-to-json [todo]
+(defn- rx-to-json [rx]
   (map-to-json (into {} (for [k [:id :created :title :due-by :completed :deleted]]
-                          [k (<mget todo k)]))))
+                          [k (<mget rx k)]))))
 

@@ -1,4 +1,4 @@
-(ns todomx.build
+(ns rxtrak.build
   (:require [cljs.pprint :as pp]
             [cljs-time.coerce :as tmc]
             [clojure.string :as str]
@@ -37,14 +37,14 @@
             [goog.events.Event :as event]
             [goog.dom.forms :as form]
 
-            [todomx.todo
-             :refer [make-todo td-title td-created bulk-todo
-                     td-completed td-upsert td-delete! load-all
-                     td-id td-toggle-completed!]]
-            [todomx.todo-list-item :refer [todo-list-item]]))
+            [rxtrak.rx
+             :refer [make-rx rx-title rx-created bulk-rx
+                     rx-completed rx-upsert rx-delete! load-all
+                     rx-id rx-toggle-completed!]]
+            [rxtrak.rx-list-item :refer [rx-list-item]]))
 
-(declare landing-page mx-todos mx-todo-items mx-find-matrix start-router mx-route
-         std-clock ae-autocheck?)
+(declare landing-page mx-rxs mx-rx-items mx-find-matrix start-router mx-route
+         srx-clock ae-autocheck?)
 
 ;;; --- the beef: matrix-build! ------------------------------------------
 
@@ -62,14 +62,14 @@
   ;;; matrix-build! is responsible for building the initial matrix. Once built, app
   ;;; functionality arises from matrix objects changing in reaction to input Cell
   ;;; "writes" made by event handlers, triggering observers which manifest those
-  ;;; changes usefully, in TodoMX either by updating the DOM or writing to localStorage.
+  ;;; changes usefully, in rxtrak either by updating the DOM or writing to localStorage.
 
   #_(do ;; if needed
       (io-clear-storage))
 
-  (reset! matrix (md/make ::todoApp
+  (reset! matrix (md/make ::rxApp
                           ;; load all to-dos into a depend-able list....
-                          :todos (todomx.todo/todo-list)
+                          :rxs (rxtrak.rx/rx-list)
 
                           ;; build the matrix dom once. From here on, all DOM changes are
                           ;; made incrementally by Tag library observers...
@@ -79,8 +79,8 @@
                           ;; the spec wants the route persisted for some reason....
                           :route (c?+n [:obs (fn-obs        ;; fn-obs convenience macro provides handy local vars....
                                                (when-not (= unbound old)
-                                                 (io-upsert "todo-matrixcljs.route" new)))]
-                                       (or (io-read "todo-matrixcljs.route") "All"))
+                                                 (io-upsert "rx-matrixcljs.route" new)))]
+                                       (or (io-read "rx-matrixcljs.route") "All"))
                           :router-starter start-router)))
 
 ;;; --- routing -----------------------------------------
@@ -96,20 +96,21 @@
 ;;; --- the landing page -------------------------------
 
 ;; We use subroutines to break up the DOM generation into manageable chunks.
-(declare todo-list-items dashboard-footer todo-entry-field toggle-all)
+(declare rx-list-items dashboard-footer rx-entry-field toggle-all)
 
 ;; We do so selectively so we are not forever chasing around to find functionality.
 ;; e.g, the footer is trivial, short, and callback-free: no need to break it out.
 
 (defn landing-page []
   [(section {:class "todoapp"}
-     (std-clock)
+     (srx-clock)
      (header {:class "header"}
              (h1 "&#x211e;Trak")
-             (todo-entry-field))
-     (todo-list-items)
-     (ae-autocheck?)
-     (dashboard-footer))
+             (rx-entry-field))
+     (rx-list-items)
+     (ae-autocheck? me)
+     (dashboard-footer)
+     )
 
    (footer {:class "info"}
      (p "Double-click a to-do list item to edit it.")
@@ -118,7 +119,7 @@
 
 ;; --- to-do Entry -----------------------------------
 
-(defn todo-entry-field []
+(defn rx-entry-field []
   (input {:class       "new-todo"
           :autofocus   true
           :placeholder "What are you taking?"
@@ -127,18 +128,18 @@
                            (do                              ;; profile {}
                              (let [raw (form/getValue (.-target evt))
                                    title (str/trim raw)
-                                   todos (mx-todos)]
+                                   rxs (mx-rxs)]
                                (when-not (= title "")
-                                 (do                        ;; tufte/p ::growtodo
-                                   (mswap!> todos :items-raw
-                                            #(conj % (make-todo {:title title})))))
+                                 (do                        ;; tufte/p ::growrx
+                                   (mswap!> rxs :items-raw
+                                            #(conj % (make-rx {:title title})))))
                                (form/setValue (.-target evt) "")))))}))
 
 ;; --- to-do list UL ---------------------------------
 
-(defn todo-list-items []
+(defn rx-list-items []
   (section {:class  "main"
-            :hidden (c? (<mget (mx-todos me) :empty?))}
+            :hidden (c? (<mget (mx-rxs me) :empty?))}
 
            (toggle-all)
 
@@ -149,15 +150,15 @@
                ;; This is overkill for short TodoMVC to-do lists -- just demonstrating the capability.
 
                {:selections  (c-in nil)
-                :kid-values  (c? (sort-by td-created
-                                   (<mget (mx-todos me)
+                :kid-values  (c? (sort-by rx-created
+                                   (<mget (mx-rxs me)
                                           (case (mx-route me)
                                             "All" :items
                                             "Completed" :items-completed
                                             "Active" :items-active))))
-                :kid-key     #(<mget % :todo)
-                :kid-factory (fn [me todo]
-                               (todo-list-item me todo (mx-find-matrix me)))}
+                :kid-key     #(<mget % :rx)
+                :kid-factory (fn [me rx]
+                               (rx-list-item me rx (mx-find-matrix me)))}
 
                ;; cache is prior value for this implicit 'kids' slot; k-v-k uses it for diffing
                (kid-values-kids me cache))))
@@ -167,7 +168,7 @@
 (defn toggle-all []
   (div {} {;; 'action' is an ad hoc bit of intermediate state that will be used to decide the
            ;; input HTML checked attribute and will also guide the label onclick handler.
-           :action (c? (if (every? td-completed (mx-todo-items me))
+           :action (c? (if (every? rx-completed (mx-rx-items me))
                          :uncomplete :complete))}
 
     (input {:id        "toggle-all"
@@ -179,7 +180,7 @@
             ;; a bit ugly: handler below is not in kids rule of LABEL, so 'me' is the DIV, not the LABEL.
             :onclick #(let [action (<mget me :action)]
                         (event/preventDefault %)            ;; else browser messes with checked, which we handle
-                        (doseq [td (mx-todo-items)]
+                        (doseq [td (mx-rx-items)]
                           (mset!> td :completed (when (= action :complete) (now)))))}
            "Mark all as complete")))
 
@@ -187,11 +188,11 @@
 
 (defn dashboard-footer []
   (footer {:class  "footer"
-           :hidden (c? (<mget (mx-todos me) :empty?))}
+           :hidden (c? (<mget (mx-rxs me) :empty?))}
 
           (span {:class   "todo-count"
                  :content (c? (pp/cl-format nil "<strong>~a</strong>  item~:P remaining"
-                                            (count (remove td-completed (mx-todo-items me)))))})
+                                            (count (remove rx-completed (mx-rx-items me)))))})
 
           (ul {:class "filters"}
               (for [[label route] [["All", "#/"]
@@ -204,16 +205,16 @@
                           label))))
 
           (button {:class   "clear-completed"
-                   :hidden  (c? (empty? (<mget (mx-todos me) :items-completed)))
-                   :onclick #(doseq [td (filter td-completed (mx-todo-items))]
-                               (td-delete! td))}
+                   :hidden  (c? (empty? (<mget (mx-rxs me) :items-completed)))
+                   :onclick #(doseq [td (filter rx-completed (mx-rx-items))]
+                               (rx-delete! td))}
                   "Clear completed")))
 
 ;; --- miscellaneous components -----------------
 
-(defn std-clock []
+(defn srx-clock []
   (let [steps (atom 30)]
-    (div {:class   "std-clock"
+    (div {:class   "srx-clock"
           :content (c? (subs (.toDateString
                                (js/Date.
                                  (<mget me :clock)))
@@ -239,24 +240,24 @@
 (defn mx-route [mx]
   (<mget (mx-find-matrix mx) :route))
 
-(defn mx-todos
-  "Given a node in the matrix, navigate to the root and read the todos. After
+(defn mx-rxs
+  "Given a node in the matrix, navigate to the root and read the rxs. After
   the matrix is initially loaded (say in an event handler), one can pass nilgit g
   and find the matrix in @matrix. The no-arg variant is offered as a dubious
   dev convenience (dubious since it adds the burden of knowing where one can
   safely assume the matrix atom has been loaded)."
-  ([] (<mget @matrix :todos))
+  ([] (<mget @matrix :rxs))
 
   ([mx]
    (if (nil? mx)
-     (mx-todos)
+     (mx-rxs)
      (let [mtrx (mx-find-matrix mx)]
-       (assert mtrx)
-       (<mget mtrx :todos)))))
+       (assert mtrx (str "mx-rxs not finding matrix from " (tagfo mx)))
+       (<mget mtrx :rxs)))))
 
-(defn mx-todo-items
-  ([] (mx-todo-items nil))
-  ([mx] (<mget (mx-todos mx) :items)))
+(defn mx-rx-items
+  ([] (mx-rx-items nil))
+  ([mx] (<mget (mx-rxs mx) :items)))
 
 (defn mx-find-matrix [mx]
-  (mxu-find-type mx ::todoApp))
+  (mxu-find-type mx ::rxApp))

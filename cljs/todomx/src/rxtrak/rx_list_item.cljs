@@ -1,4 +1,4 @@
-(ns todomx.todo-list-item
+(ns rxtrak.rx-list-item
   (:require [cljs.pprint :as pp]
             [clojure.string :as str]
             [bide.core :as r]
@@ -44,86 +44,86 @@
             [goog.events.Event :as event]
             [goog.dom.forms :as form]
 
-            [todomx.todo
-             :refer [make-todo td-title td-created bulk-todo
-                     td-completed td-upsert td-delete! load-all
-                     td-id td-toggle-completed! td-due-by]]
+            [rxtrak.rx
+             :refer [make-rx rx-title rx-created bulk-rx
+                     rx-completed rx-upsert rx-delete! load-all
+                     rx-id rx-toggle-completed! rx-due-by]]
             [cljs-time.coerce :as tmc]
             [clojure.string :as $]))
 
-(declare todo-edit
+(declare rx-edit
          ae-explorer
          due-by-input)
 
-(defn todo-list-item [me todo matrix]
+(defn rx-list-item [me rx matrix]
   (let [ul-tag me]
     (li {:class   (c? [(when (<mget me :selected?) "chosen")
                        (when (<mget me :editing?) "editing")
-                       (when (td-completed todo) "completed")])
+                       (when (rx-completed rx) "completed")])
 
          :display (c? (if-let [route (<mget matrix :route)]
                         (cond
                           (or (= route "All")
                               (xor (= route "Active")
-                                   (td-completed todo))) "block"
+                                   (rx-completed rx))) "block"
                           :default "none")
                         "block"))}
         ;;; custom slots..
-        {:todo      todo
+        {:rx      rx
          ;; above is also key to identify lost/gained LIs, in turn to optimize list maintenance
 
-         :selected? (c? (some #{todo} (<mget ul-tag :selections)))
+         :selected? (c? (some #{rx} (<mget ul-tag :selections)))
 
          :editing?  (c-in false)}
 
-        (let [todo-li me]
+        (let [rx-li me]
           [(div {:class "view"}
              (input {:class   "toggle" ::tag/type "checkbox"
-                     :checked (c? (not (nil? (td-completed todo))))
-                     :onclick #(td-toggle-completed! todo)})
+                     :checked (c? (not (nil? (rx-completed rx))))
+                     :onclick #(rx-toggle-completed! rx)})
 
              (label {:onclick    (fn [evt]
                                    (mswap!> ul-tag :selections
-                                            #(if (some #{todo} %)
-                                               (remove #{todo} %)
-                                               (conj % todo))))
+                                            #(if (some #{rx} %)
+                                               (remove #{rx} %)
+                                               (conj % rx))))
 
                      :ondblclick #(do
-                                    (mset!> todo-li :editing? true)
+                                    (mset!> rx-li :editing? true)
                                     (tag/input-editing-start
-                                      (dom/getElementByClass "edit" (tag-dom todo-li))
-                                      (td-title todo)))}
-                    (td-title todo))
+                                      (dom/getElementByClass "edit" (tag-dom rx-li))
+                                      (rx-title rx)))}
+                    (rx-title rx))
 
-             (due-by-input todo)
+             (due-by-input rx)
 
-             (ae-explorer todo)
+             (ae-explorer rx)
 
              (button {:class   "destroy"
-                      :onclick #(td-delete! todo)}))
+                      :onclick #(rx-delete! rx)}))
 
-           (letfn [(todo-edt [event]
-                     (todo-edit event todo-li))]
+           (letfn [(rx-edt [event]
+                     (rx-edit event rx-li))]
              (input {:class     "edit"
-                     :onblur    todo-edt
-                     :onkeydown todo-edt}))]))))
+                     :onblur    rx-edt
+                     :onkeydown rx-edt}))]))))
 
-(defn todo-edit [e todo-li]
+(defn rx-edit [e rx-li]
   (let [edt-dom (.-target e)
-        todo (<mget todo-li :todo)
-        li-dom (tag-dom todo-li)]
+        rx (<mget rx-li :rx)
+        li-dom (tag-dom rx-li)]
 
     (when (classlist/contains li-dom "editing")
       (let [title (str/trim (form/getValue edt-dom))
-            stop-editing #(mset!> todo-li :editing? false)]
+            stop-editing #(mset!> rx-li :editing? false)]
         (cond
           (or (= (.-type e) "blur")
               (= (.-key e) "Enter"))
           (do
             (stop-editing)                                  ;; has to go first cuz a blur event will sneak in
             (if (= title "")
-              (td-delete! todo)
-              (mset!> todo :title title)))
+              (rx-delete! rx)
+              (mset!> rx :title title)))
 
           (= (.-key e) "Escape")
           ;; this could leave the input field with mid-edit garbage, but
@@ -132,22 +132,22 @@
 
 ;;; --- due-by input -------------------------------------------
 
-(defn due-by-input [todo]
+(defn due-by-input [rx]
   (input {:class     "due-by"
           ::tag/type "date"
-          :value     (c?n (when-let [db (td-due-by todo)]
+          :value     (c?n (when-let [db (rx-due-by rx)]
                             (let [db$ (tmc/to-string (tmc/from-long db))]
                               (subs db$ 0 10))))
-          :oninput   #(mset!> todo :due-by
+          :oninput   #(mset!> rx :due-by
                               (tmc/to-long
                                 (tmc/from-string
                                   (form/getValue (.-target %)))))
           :style     (c?once (make-css-inline me
                                :border "none"
                                :font-size "14px"
-                               :background-color (c? (when-let [clock (mxu-find-class (:tag @me) "std-clock")]
-                                                       (if-let [due (td-due-by todo)]
-                                                         (if (td-completed todo)
+                               :background-color (c? (when-let [clock (mxu-find-class (:tag @me) "srx-clock")]
+                                                       (if-let [due (rx-due-by rx)]
+                                                         (if (rx-completed rx)
                                                            cache
                                                            (let [time-left (- due (<mget clock :clock))]
                                                              (cond
@@ -167,7 +167,7 @@
 
 (def ae-by-brand "https://api.fda.gov/drug/event.json?search=patient.drug.openfda.brand_name:~(~a~)&limit=3")
 
-(defn ae-explorer [todo]
+(defn ae-explorer [rx]
   (button {:class   "li-show"
            :style   (c? (or (when-let [xhr (<mget me :ae)]
                               (let [aes (xhr-response xhr)]
@@ -181,7 +181,7 @@
                               (not-to-be old)))]
                  (when (<mget (mxu-find-class me "ae-autocheck") :on?)
                    (send-xhr (pp/cl-format nil ae-by-brand
-                                           (js/encodeURIComponent (td-title todo))))))}
+                                           (js/encodeURIComponent (rx-title rx))))))}
 
           (span {:style "font-size:0.7em;margin:2px;margin-top:0;vertical-align:top"}
                 "View Adverse Events")))
