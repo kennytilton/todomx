@@ -27,6 +27,18 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="315">
               <caret line="21" column="44" lean-forward="false" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
+              <folding>
+                <marker date="1517123595058" expanded="true" signature="0:35" ph="(ns todomx.core ...)" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/todomvc-app-css/index.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="418" column="0" lean-forward="true" selection-start-line="418" selection-start-column="0" selection-end-line="418" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -35,8 +47,8 @@
       <file leaf-file-name="build.cljs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/rxtrak/build.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
-              <caret line="222" column="15" lean-forward="true" selection-start-line="222" selection-start-column="15" selection-end-line="222" selection-end-column="15" />
+            <state relative-caret-position="180">
+              <caret line="216" column="20" lean-forward="false" selection-start-line="216" selection-start-column="20" selection-end-line="216" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -45,18 +57,8 @@
       <file leaf-file-name="rx_list_item.cljs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/rxtrak/rx_list_item.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2058">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="rx.cljs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rxtrak/rx.cljs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="676">
-              <caret line="61" column="39" lean-forward="false" selection-start-line="61" selection-start-column="39" selection-end-line="61" selection-end-column="39" />
+            <state relative-caret-position="147">
+              <caret line="147" column="98" lean-forward="false" selection-start-line="147" selection-start-column="98" selection-end-line="147" selection-end-column="98" />
               <folding />
             </state>
           </provider>
@@ -67,10 +69,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1740">
               <caret line="116" column="0" lean-forward="false" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
-              <folding>
-                <marker date="1517119740046" expanded="true" signature="0:1228" ph="(ns todomx.build ...)" />
-                <marker date="1517119740046" expanded="true" signature="9835:10201" ph="(defn mx-todos ...)" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -100,9 +99,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1410">
               <caret line="94" column="29" lean-forward="false" selection-start-line="94" selection-start-column="29" selection-end-line="94" selection-end-column="29" />
-              <folding>
-                <marker date="1517119740047" expanded="true" signature="0:96" ph="(ns todomx.todo-list-item ...)" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -140,6 +137,7 @@
       <find>rx_ls_</find>
       <find>mx-rxs</find>
       <find>::todoApp</find>
+      <find>srx-</find>
     </findStrings>
     <replaceStrings>
       <replace>:editing?</replace>
@@ -147,6 +145,7 @@
       <replace>rx</replace>
       <replace>rx-</replace>
       <replace>RX_LS</replace>
+      <replace>std-</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/src</dir>
@@ -173,6 +172,7 @@
         <option value="$PROJECT_DIR$/src/todomx/core.cljs" />
         <option value="$PROJECT_DIR$/src/rxtrak/rx.cljs" />
         <option value="$PROJECT_DIR$/src/rxtrak/build.cljs" />
+        <option value="$PROJECT_DIR$/src/rxtrak/rx_list_item.cljs" />
       </list>
     </option>
   </component>
@@ -208,13 +208,18 @@
             <path>
               <item name="todomx" type="b2602c69:ProjectViewProjectNode" />
               <item name="todomx" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="todomx" type="b2602c69:ProjectViewProjectNode" />
+              <item name="todomx" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+              <item name="todomvc-app-css" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="todomx" type="b2602c69:ProjectViewProjectNode" />
               <item name="todomx" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="clojurenyc" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="todomx" type="b2602c69:ProjectViewProjectNode" />
@@ -379,8 +384,28 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="REPL" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Leiningen" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24966533" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -422,10 +447,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-908">
           <caret line="64" column="20" lean-forward="false" selection-start-line="64" selection-start-column="20" selection-end-line="64" selection-end-column="20" />
-          <folding>
-            <marker date="1517119740046" expanded="true" signature="0:1228" ph="(ns todomx.build ...)" />
-            <marker date="1517119740046" expanded="true" signature="9835:10201" ph="(defn mx-todos ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -433,7 +455,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="20" column="22" lean-forward="false" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
-          <folding />
+          <folding>
+            <marker date="1517123595058" expanded="true" signature="0:35" ph="(ns todomx.core ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -456,7 +480,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="20" column="22" lean-forward="false" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
-          <folding />
+          <folding>
+            <marker date="1517123595058" expanded="true" signature="0:35" ph="(ns todomx.core ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -480,7 +506,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1517123595058" expanded="true" signature="0:35" ph="(ns todomx.core ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -503,10 +531,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="732">
           <caret line="234" column="0" lean-forward="false" selection-start-line="234" selection-start-column="0" selection-end-line="234" selection-end-column="0" />
-          <folding>
-            <marker date="1517119740046" expanded="true" signature="0:1228" ph="(ns todomx.build ...)" />
-            <marker date="1517119740046" expanded="true" signature="9835:10201" ph="(defn mx-todos ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -514,9 +539,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1800">
           <caret line="120" column="21" lean-forward="false" selection-start-line="120" selection-start-column="21" selection-end-line="120" selection-end-column="21" />
-          <folding>
-            <marker date="1517119740047" expanded="true" signature="0:96" ph="(ns todomx.todo-list-item ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -541,9 +564,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="429">
           <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-          <folding>
-            <marker date="1517119740047" expanded="true" signature="0:96" ph="(ns todomx.todo-list-item ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -551,7 +572,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1517123595058" expanded="true" signature="0:35" ph="(ns todomx.core ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -567,10 +590,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-993">
           <caret line="126" column="68" lean-forward="true" selection-start-line="126" selection-start-column="68" selection-end-line="126" selection-end-column="68" />
-          <folding>
-            <marker date="1517119740046" expanded="true" signature="0:1228" ph="(ns todomx.build ...)" />
-            <marker date="1517119740046" expanded="true" signature="9835:10201" ph="(defn mx-todos ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -599,14 +619,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
           <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1517123595058" expanded="true" signature="0:35" ph="(ns todomx.core ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/css/todomvc-app-css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5777">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="493">
+          <caret line="418" column="0" lean-forward="true" selection-start-line="418" selection-start-column="0" selection-end-line="418" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -622,10 +645,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
           <caret line="240" column="25" lean-forward="false" selection-start-line="240" selection-start-column="25" selection-end-line="240" selection-end-column="25" />
-          <folding>
-            <marker date="1517119740046" expanded="true" signature="0:1228" ph="(ns todomx.build ...)" />
-            <marker date="1517119740046" expanded="true" signature="9835:10201" ph="(defn mx-todos ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -633,9 +653,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="271">
           <caret line="52" column="30" lean-forward="false" selection-start-line="52" selection-start-column="30" selection-end-line="52" selection-end-column="30" />
-          <folding>
-            <marker date="1517119740047" expanded="true" signature="0:96" ph="(ns todomx.todo-list-item ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -702,10 +720,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1740">
           <caret line="116" column="0" lean-forward="false" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
-          <folding>
-            <marker date="1517119740046" expanded="true" signature="0:1228" ph="(ns todomx.build ...)" />
-            <marker date="1517119740046" expanded="true" signature="9835:10201" ph="(defn mx-todos ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -713,9 +728,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1410">
           <caret line="94" column="29" lean-forward="false" selection-start-line="94" selection-start-column="29" selection-end-line="94" selection-end-column="29" />
-          <folding>
-            <marker date="1517119740047" expanded="true" signature="0:96" ph="(ns todomx.todo-list-item ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -747,7 +760,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="21" column="44" lean-forward="false" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
-          <folding />
+          <folding>
+            <marker date="1517123595058" expanded="true" signature="0:35" ph="(ns todomx.core ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -755,30 +770,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="676">
           <caret line="61" column="39" lean-forward="false" selection-start-line="61" selection-start-column="39" selection-end-line="61" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rxtrak/tx_list_item.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rxtrak/tx_list_item.cljs" />
     <entry file="file://$PROJECT_DIR$/src/rxtrak/build.cljs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="222" column="15" lean-forward="true" selection-start-line="222" selection-start-column="15" selection-end-line="222" selection-end-column="15" />
+        <state relative-caret-position="180">
+          <caret line="216" column="20" lean-forward="false" selection-start-line="216" selection-start-column="20" selection-end-line="216" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rxtrak/rx_list_item.cljs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2058">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="147">
+          <caret line="147" column="98" lean-forward="false" selection-start-line="147" selection-start-column="98" selection-end-line="147" selection-end-column="98" />
           <folding />
         </state>
       </provider>

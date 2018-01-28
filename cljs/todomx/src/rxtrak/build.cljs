@@ -44,7 +44,7 @@
             [rxtrak.rx-list-item :refer [rx-list-item]]))
 
 (declare landing-page mx-rxs mx-rx-items mx-find-matrix start-router mx-route
-         srx-clock ae-autocheck?)
+         std-clock ae-autocheck?)
 
 ;;; --- the beef: matrix-build! ------------------------------------------
 
@@ -103,7 +103,7 @@
 
 (defn landing-page []
   [(section {:class "todoapp"}
-     (srx-clock)
+     (std-clock)
      (header {:class "header"}
              (h1 "&#x211e;Trak")
              (rx-entry-field))
@@ -212,9 +212,9 @@
 
 ;; --- miscellaneous components -----------------
 
-(defn srx-clock []
+(defn std-clock []
   (let [steps (atom 30)]
-    (div {:class   "srx-clock"
+    (div {:class   "std-clock"
           :content (c? (subs (.toDateString
                                (js/Date.
                                  (<mget me :clock)))

@@ -145,7 +145,7 @@
           :style     (c?once (make-css-inline me
                                :border "none"
                                :font-size "14px"
-                               :background-color (c? (when-let [clock (mxu-find-class (:tag @me) "srx-clock")]
+                               :background-color (c? (when-let [clock (mxu-find-class (:tag @me) "std-clock")]
                                                        (if-let [due (rx-due-by rx)]
                                                          (if (rx-completed rx)
                                                            cache
