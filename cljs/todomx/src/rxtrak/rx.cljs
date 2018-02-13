@@ -165,3 +165,33 @@
   (map-to-json (into {} (for [k [:id :created :title :due-by :completed :deleted]]
                           [k (<mget rx k)]))))
 
+;;; --- demo ----
+
+(defn due-by-input [rx]
+  (input {:class     "due-by"
+          ::tag/type "date"
+          :value     (cFn (when-let [db (rx-due-by rx)]
+                            (let [db$ (tmc/to-string (tmc/from-long db))]
+                              (subs db$ 0 10))))
+          :disabled (cF (when (rx-completed rx) "disabled"))
+          :oninput   #(mset!> rx :due-by
+                        (tmc/to-long
+                          (tmc/from-string
+                            (form/getValue (.-target %)))))
+          :style     (cFonce (make-css-inline me
+                               :border "none"
+                               :font-size "14px"
+                               :display (cF (if (and (rx-completed rx)
+                                                     (not (rx-due-by rx)))
+                                              "none" "block"))
+                               :background-color (cF (when-let [clock (mxu-find-class (:tag @me) "std-clock")]
+                                                       (if-let [due (rx-due-by rx)]
+                                                         (if (rx-completed rx)
+                                                           cache
+                                                           (let [time-left (- due (<mget clock :clock))]
+                                                             (cond
+                                                               (neg? time-left) "red"
+                                                               (< time-left (* 24 3600 1000)) "coral"
+                                                               (< time-left (* 2 24 3600 1000)) "yellow"
+                                                               :default "green")))
+                                                         "#e8e8e8")))))}))
