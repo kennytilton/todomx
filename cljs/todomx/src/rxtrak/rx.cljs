@@ -12,11 +12,11 @@
     [taoensso.tufte :as tufte :refer-macros (defnp p profiled profile)]
     [tiltontec.cell.base :refer [unbound ia-type]]
     [tiltontec.cell.core
-     :refer-macros [c? c?n] :refer [c-in]]
+     :refer-macros [cF cFn] :refer [cI]]
     [tiltontec.cell.observer :refer [observe-by-type]]
     [tiltontec.model.core :as md :refer [make <mget mset!> mswap!>]]
     [tiltontec.util.core :as util :refer [pln now map-to-json json-to-map uuidv4]]
-    [tiltontec.tag.html :refer [io-upsert io-read io-find io-truncate]]))
+    [tiltontec.webmx.html :refer [io-upsert io-read io-find io-truncate]]))
 
 ;;; FYI: every implementation I looked at stores all rxs as a single blob in
 ;;; localStorage. The TodoMVC spec does not require anything more, but it seems
@@ -32,8 +32,8 @@
 
 (defn rx-list []
   (md/make ::rx-list
-    :items-raw (c?n (load-all))
-    :items (c? (p :items (doall (remove rx-deleted (<mget me :items-raw)))))
+    :items-raw (cFn (load-all))
+    :items (cF (p :items (doall (remove rx-deleted (<mget me :items-raw)))))
 
     ;; the TodoMVC challenge has a requirement that routes "go thru the
     ;; the model". (Some of us just toggled the hidden attribute appropriately
@@ -41,8 +41,8 @@
     ;; examine the route and ask the model for different subsets using different
     ;; functions for each subset. For fun we used dedicated cells:
 
-    :items-completed (c? (p :completed (doall (filter rx-completed (<mget me :items)))))
-    :items-active (c? (p :active (doall (remove rx-completed (<mget me :items)))))
+    :items-completed (cF (p :completed (doall (filter rx-completed (<mget me :items)))))
+    :items-active (cF (p :active (doall (remove rx-completed (<mget me :items)))))
 
     ;; two DIVs want to hide if there are no to-dos, so we dedicate a cell
     ;; to that semantic. Yes, this could be a function, but then the Cell
@@ -51,7 +51,7 @@
     ;; the count goes to or from zero, so we avoid recomputing two "hiddens"
     ;; unnecessarily when the count changes, say, from 2 to 3.
 
-    :empty? (c? (nil? (first (<mget me :items))))))
+    :empty? (cF (nil? (first (<mget me :items))))))
 
 (defn make-rx
   "Make a matrix incarnation of an rx on initial entry"
@@ -63,10 +63,10 @@
                      :created   (now)
 
                      ;; now wrap mutable slots as Cells...
-                     :title     (c-in (:title islots))
-                     :due-by    (c-in nil #_(+ (now) (* 4 24 60 60 1000)))
-                     :completed (c-in nil)
-                     :deleted   (c-in nil)})
+                     :title     (cI (:title islots))
+                     :due-by    (cI nil #_(+ (now) (* 4 24 60 60 1000)))
+                     :completed (cI nil)
+                     :deleted   (cI nil)})
 
         rx (apply md/make (flatten (into [] net-slots)))]
 
@@ -146,11 +146,11 @@
                  (merge islots
                         {:type      ::rx
                          ;; we wrap in cells those reloaded slots we might mutate...
-                         :title     (c-in (:title islots))
-                         :due-by    (c-in (:due-by islots))
-                         :completed (c-in (:completed islots))
+                         :title     (cI (:title islots))
+                         :due-by    (cI (:due-by islots))
+                         :completed (cI (:completed islots))
                          :deleted   (or (:deleted islots)
-                                        (c-in nil))})))))
+                                        (cI nil))})))))
 
 ;;; ---- uodating in localStorage ----------------------
 

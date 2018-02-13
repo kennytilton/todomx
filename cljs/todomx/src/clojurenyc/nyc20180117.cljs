@@ -8,13 +8,13 @@
             [tiltontec.util.core :refer [pln xor now]]
             [tiltontec.cell.base :refer [cells-reset unbound ia-type *within-integrity* *defer-changes*]]
             [tiltontec.cell.core
-             :refer-macros [c? c?+ c?n c?+n c?once]
-             :refer [c-in c-reset!]]
+             :refer-macros [cF cF+ cFn cF+n cFonce]
+             :refer [cI c-reset!]]
             [tiltontec.cell.observer :refer-macros [fn-obs]]
             [tiltontec.cell.evaluate :refer [c-awaken <cget]]
             [tiltontec.cell.core
-             :refer-macros [c? c?+ c-reset-next! c?once c?n]
-             :refer [c-in cset!> make-cell make-c-formula]]
+             :refer-macros [cF cF+ c-reset-next! cFonce cFn]
+             :refer [cI cset!> make-cell make-c-formula]]
 
 
             [tiltontec.model.core
@@ -22,7 +22,7 @@
              :refer [matrix mx-par <mget mset!> mswap!>
                      fget mxi-find mxu-find-type
                      kid-values-kids] :as md]
-            [tiltontec.tag.html
+            [tiltontec.webmx.html
              :refer [io-read io-upsert io-clear-storage
                      tag-dom-create
                      dom-tag tagfo tag-dom
@@ -32,11 +32,11 @@
             [tiltontec.xhr
              :refer [send-xhr xhr-status xhr-response]]
 
-            [tiltontec.tag.gen
+            [tiltontec.webmx.gen
              :refer-macros [section header h1 input footer p a span label ul li div button br]
              :refer [dom-tag evt-tag]]
 
-            [tiltontec.tag.style :refer [make-css-inline]]))
+            [tiltontec.webmx.style :refer [make-css-inline]]))
 
 (defn hello-world
   "A true hello-world, with just enough code to ensure
@@ -73,9 +73,9 @@
 
 (defn hello-cells []
   (cells-reset)
-  (let [clock (c-in nil)
+  (let [clock (cI nil)
 
-        date (c?+ [:obs (fn-obs (println (str "The time is now " new)))]
+        date (cF+ [:obs (fn-obs (println (str "The time is now " new)))]
                   (if-let [c (<cget clock)]
                     (.toTimeString
                       (js/Date. c))
@@ -104,15 +104,15 @@
   other values can react to it."
   []
   (cells-reset)
-  (let [clock (c-in (now)
+  (let [clock (cI (now)
                     :obs (fn-obs (println (str "It is now " new "ms!"))))
 
-        date (c?+ [:obs (fn-obs (println (str "More readably: " new)))]
+        date (cF+ [:obs (fn-obs (println (str "More readably: " new)))]
                   (.toTimeString
                     (js/Date.
                       (<cget clock))))
 
-        gong (c?+ [:obs (fn-obs
+        gong (cF+ [:obs (fn-obs
                           (when new (println "GONG!")))]
                   (let [d (<cget date)]
                     (some #{(subs d 7 8)} ["0" "5"])))]
@@ -135,9 +135,9 @@
   []
   (cells-reset)
   (let [ls-key "nyc-lifting-storage"
-        clock (c-in nil)
+        clock (cI nil)
 
-        date (c?+ [:obs (fn-obs
+        date (cF+ [:obs (fn-obs
                           (when new
                             (io-upsert ls-key new)))]
                   (when-let [c (<cget clock)]
@@ -168,20 +168,20 @@
   (cells-reset)
   (let [ticker (atom nil)
         ls-key "nyc-lifting-fda"
-        clock (c-in (now))
+        clock (cI (now))
 
-        date (c?+ [:obs (fn-obs (println (str "More readably: " new)))]
+        date (cF+ [:obs (fn-obs (println (str "More readably: " new)))]
                   (.toTimeString
                     (js/Date.
                       (<cget clock))))
 
-        check-fda? (c? (let [d (<cget date)]
+        check-fda? (cF (let [d (<cget date)]
                          (some #{(subs d 7 8)} ["0" "5"])))
 
-        fda-xhr (c? (when (<cget check-fda?)
+        fda-xhr (cF (when (<cget check-fda?)
                       (send-xhr (pp/cl-format nil ae-lookup @drug))))
 
-        response (c?+ [:obs (fn-obs (when new
+        response (cF+ [:obs (fn-obs (when new
                                       (println :fda-says! (:status new))
                                       (if (= 200 (:status new))
                                         (js/clearInterval @ticker)
@@ -204,7 +204,7 @@
 
 (defn lifting-html []
   (reset! matrix (md/make ::lifting-html
-                   :mx-dom (c?once (with-par me
+                   :mx-dom (cFonce (with-par me
                                      (landing-page-mini))))))
 
 (defn landing-page-mini []
@@ -222,12 +222,12 @@
 (defn nyc-std-clock [interval]
   (div {:class   "std-clock"
         :style   (when (= interval 1000)
-                   (c?once (make-css-inline me
-                             :background (c? (let [clk (<mget (:tag @me) :clock)
+                   (cFonce (make-css-inline me
+                             :background (cF (let [clk (<mget (:tag @me) :clock)
                                                    s (Math/round (/ clk 1000))]
                                                (when (zero? (mod s 5))
                                                  "cyan"))))))
-        :content (c? (let [c (<mget me :clock)
+        :content (cF (let [c (<mget me :clock)
                            ts (str (.toTimeString
                                      (js/Date. c)))]
                        (if (= interval 1000)
@@ -236,7 +236,7 @@
                               "."
                               (pp/cl-format nil "~3'0d" (mod c 1000))
                               (subs ts 8)))))}
-    {:clock  (c-in (now))
-     :ticker (c?once (js/setInterval
+    {:clock  (cI (now))
+     :ticker (cFonce (js/setInterval
                        #(mset!> me :clock (now))
                        interval))}))

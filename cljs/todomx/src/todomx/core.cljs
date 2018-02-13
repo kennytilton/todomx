@@ -3,7 +3,7 @@
     [clojure.browser.repl :as repl]
     [goog.dom :as dom]
     [tiltontec.model.core :refer [<mget]]
-    [tiltontec.tag.html :refer [tag-dom-create *tag-trace*]]
+    [tiltontec.webmx.html :refer [tag-dom-create *webmx-trace*]]
     [todomx.build :as tmx]
     [rxtrak.build :as rxtrak]
     [taoensso.tufte :as tufte :refer (defnp p profiled profile)]

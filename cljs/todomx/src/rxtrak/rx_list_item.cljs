@@ -6,7 +6,7 @@
 
             [tiltontec.util.core :refer [pln xor now]]
             [tiltontec.cell.base :refer [unbound ia-type *within-integrity* *defer-changes*]]
-            [tiltontec.cell.core :refer-macros [c? c?+ c?n c?+n c?once] :refer [c-in]]
+            [tiltontec.cell.core :refer-macros [cF cF+ cFn cF+n cFonce] :refer [cI]]
             [tiltontec.cell.evaluate :refer [not-to-be]]
             [tiltontec.cell.observer :refer-macros [fn-obs]]
             [tiltontec.cell.synapse
@@ -15,9 +15,9 @@
 
 
             [tiltontec.model.core :refer [matrix mx-par <mget mset!> mswap!>
-                                          fget mxi-find mxu-find-class mxu-find-type
+                                          fget mxi-find mxu-find-type
                                           kid-values-kids] :as md]
-            [tiltontec.tag.html
+            [tiltontec.webmx.html
              :refer [io-read io-upsert io-clear-storage
                      tag-dom-create
                      mxu-find-tag mxu-find-class
@@ -30,12 +30,12 @@
                      xhr-status-key xhr-resolved xhr-error xhr-error? xhrfo synaptic-xhr synaptic-xhr-unparsed
                      xhr-selection xhr-to-map xhr-name-to-map xhr-response]]
 
-            [tiltontec.tag.gen
+            [tiltontec.webmx.gen
              :refer-macros [section header h1 input footer p a
                             span label ul li div button br]
              :refer [dom-tag evt-tag]]
 
-            [tiltontec.tag.style :refer [make-css-inline]]
+            [tiltontec.webmx.style :refer [make-css-inline]]
 
             [goog.dom :as dom]
             [goog.dom.classlist :as classlist]
@@ -52,61 +52,61 @@
             [clojure.string :as $]))
 
 (declare rx-edit
-         ae-explorer
-         due-by-input)
+  ae-explorer
+  due-by-input)
 
 (defn rx-list-item [me rx matrix]
   (let [ul-tag me]
-    (li {:class   (c? [(when (<mget me :selected?) "chosen")
+    (li {:class   (cF [(when (<mget me :selected?) "chosen")
                        (when (<mget me :editing?) "editing")
                        (when (rx-completed rx) "completed")])
 
-         :display (c? (if-let [route (<mget matrix :route)]
+         :display (cF (if-let [route (<mget matrix :route)]
                         (cond
                           (or (= route "All")
-                              (xor (= route "Active")
-                                   (rx-completed rx))) "block"
+                            (xor (= route "Active")
+                              (rx-completed rx))) "block"
                           :default "none")
                         "block"))}
-        ;;; custom slots..
-        {:rx      rx
-         ;; above is also key to identify lost/gained LIs, in turn to optimize list maintenance
+      ;;; custom slots..
+      {:rx        rx
+       ;; above is also key to identify lost/gained LIs, in turn to optimize list maintenance
 
-         :selected? (c? (some #{rx} (<mget ul-tag :selections)))
+       :selected? (cF (some #{rx} (<mget ul-tag :selections)))
 
-         :editing?  (c-in false)}
+       :editing?  (cI false)}
 
-        (let [rx-li me]
-          [(div {:class "view"}
-             (input {:class   "toggle" ::tag/type "checkbox"
-                     :checked (c? (not (nil? (rx-completed rx))))
-                     :onclick #(rx-toggle-completed! rx)})
+      (let [rx-li me]
+        [(div {:class "view"}
+           (input {:class   "toggle" ::tag/type "checkbox"
+                   :checked (cF (not (nil? (rx-completed rx))))
+                   :onclick #(rx-toggle-completed! rx)})
 
-             (label {:onclick    (fn [evt]
-                                   (mswap!> ul-tag :selections
-                                            #(if (some #{rx} %)
-                                               (remove #{rx} %)
-                                               (conj % rx))))
+           (label {:onclick    (fn [evt]
+                                 (mswap!> ul-tag :selections
+                                   #(if (some #{rx} %)
+                                      (remove #{rx} %)
+                                      (conj % rx))))
 
-                     :ondblclick #(do
-                                    (mset!> rx-li :editing? true)
-                                    (tag/input-editing-start
-                                      (dom/getElementByClass "edit" (tag-dom rx-li))
-                                      (rx-title rx)))}
-                    (rx-title rx))
+                   :ondblclick #(do
+                                  (mset!> rx-li :editing? true)
+                                  (tag/input-editing-start
+                                    (dom/getElementByClass "edit" (tag-dom rx-li))
+                                    (rx-title rx)))}
+             (rx-title rx))
 
-             (due-by-input rx)
+           (due-by-input rx)
 
-             (ae-explorer rx)
+           (ae-explorer rx)
 
-             (button {:class   "destroy"
-                      :onclick #(rx-delete! rx)}))
+           (button {:class   "destroy"
+                    :onclick #(rx-delete! rx)}))
 
-           (letfn [(rx-edt [event]
-                     (rx-edit event rx-li))]
-             (input {:class     "edit"
-                     :onblur    rx-edt
-                     :onkeydown rx-edt}))]))))
+         (letfn [(rx-edt [event]
+                   (rx-edit event rx-li))]
+           (input {:class     "edit"
+                   :onblur    rx-edt
+                   :onkeydown rx-edt}))]))))
 
 (defn rx-edit [e rx-li]
   (let [edt-dom (.-target e)
@@ -118,7 +118,7 @@
             stop-editing #(mset!> rx-li :editing? false)]
         (cond
           (or (= (.-type e) "blur")
-              (= (.-key e) "Enter"))
+            (= (.-key e) "Enter"))
           (do
             (stop-editing)                                  ;; has to go first cuz a blur event will sneak in
             (if (= title "")
@@ -135,17 +135,21 @@
 (defn due-by-input [rx]
   (input {:class     "due-by"
           ::tag/type "date"
-          :value     (c?n (when-let [db (rx-due-by rx)]
+          :value     (cFn (when-let [db (rx-due-by rx)]
                             (let [db$ (tmc/to-string (tmc/from-long db))]
                               (subs db$ 0 10))))
+          :disabled (cF (when (rx-completed rx) "disabled"))
           :oninput   #(mset!> rx :due-by
-                              (tmc/to-long
-                                (tmc/from-string
-                                  (form/getValue (.-target %)))))
-          :style     (c?once (make-css-inline me
+                        (tmc/to-long
+                          (tmc/from-string
+                            (form/getValue (.-target %)))))
+          :style     (cFonce (make-css-inline me
                                :border "none"
                                :font-size "14px"
-                               :background-color (c? (when-let [clock (mxu-find-class (:tag @me) "std-clock")]
+                               :display (cF (if (and (rx-completed rx)
+                                                     (not (rx-due-by rx)))
+                                              "none" "block"))
+                               :background-color (cF (when-let [clock (mxu-find-class (:tag @me) "std-clock")]
                                                        (if-let [due (rx-due-by rx)]
                                                          (if (rx-completed rx)
                                                            cache
@@ -169,19 +173,22 @@
 
 (defn ae-explorer [rx]
   (button {:class   "li-show"
-           :style   (c? (or (when-let [xhr (<mget me :ae)]
-                              (let [aes (xhr-response xhr)]
-                                (when (= 200 (:status aes))
-                                  "display:block")))
-                            "display:none"))
+           :style   (cF (str "display:"
+                          (or (when-let [xhr (<mget me :ae)]
+                                (let [aes (xhr-response xhr)]
+                                  (when (= 200 (:status aes))
+                                    "block")))
+                            "none")))
            :onclick #(js/alert "Feature not yet implemented.")}
 
-          {:ae (c?+ [:obs (fn-obs
-                            (when-not (or (= old unbound) (nil? old))
-                              (not-to-be old)))]
-                 (when (<mget (mxu-find-class me "ae-autocheck") :on?)
-                   (send-xhr (pp/cl-format nil ae-by-brand
-                                           (js/encodeURIComponent (rx-title rx))))))}
+    {:ae (cF+ [:obs (fn-obs
+                      (when-not (or (= old unbound) (nil? old))
+                        (not-to-be old)))]
+           (when (<mget (mxu-find-class me "ae-autocheck") :on?)
+             (make-xhr (pp/cl-format nil ae-by-brand
+                         (js/encodeURIComponent (rx-title rx)))
+               {:name name :send? true})))}
 
-          (span {:style "font-size:0.7em;margin:2px;margin-top:0;vertical-align:top"}
-                "View Adverse Events")))
+    (span {:style "font-size:0.7em;margin:2px;margin-top:0;vertical-align:top"}
+      "View Adverse Events")))
+

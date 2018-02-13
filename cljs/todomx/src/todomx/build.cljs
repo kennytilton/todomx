@@ -7,7 +7,7 @@
 
             [tiltontec.util.core :refer [pln xor now]]
             [tiltontec.cell.base :refer [unbound ia-type *within-integrity* *defer-changes*]]
-            [tiltontec.cell.core :refer-macros [c? c?+ c?n c?+n c?once] :refer [c-in]]
+            [tiltontec.cell.core :refer-macros [cF cF+ cFn cF+n cFonce] :refer [cI]]
             [tiltontec.cell.observer :refer-macros [fn-obs]]
 
 
@@ -16,18 +16,18 @@
              :refer [matrix mx-par <mget mset!> mswap!>
                      fget mxi-find mxu-find-type
                      kid-values-kids] :as md]
-            [tiltontec.tag.html
+            [tiltontec.webmx.html
              :refer [io-read io-upsert io-clear-storage
                      tag-dom-create
                      dom-tag tagfo tag-dom
                      dom-has-class dom-ancestor-by-tag]
              :as tag]
 
-            [tiltontec.tag.gen
+            [tiltontec.webmx.gen
              :refer-macros [section header h1 input footer p a span label ul li div button br]
              :refer [dom-tag evt-tag]]
 
-            [tiltontec.tag.style :refer [make-css-inline]]
+            [tiltontec.webmx.style :refer [make-css-inline]]
 
             [goog.dom :as dom]
             [goog.dom.classlist :as classlist]
@@ -71,11 +71,11 @@
 
                           ;; build the matrix dom once. From here on, all DOM changes are
                           ;; made incrementally by Tag library observers...
-                          :mx-dom (c?once (with-par me
+                          :mx-dom (cFonce (with-par me
                                                     (landing-page)))
 
                           ;; the spec wants the route persisted for some reason....
-                          :route (c?+n [:obs (fn-obs        ;; fn-obs convenience macro provides handy local vars....
+                          :route (cF+n [:obs (fn-obs        ;; fn-obs convenience macro provides handy local vars....
                                                (when-not (= unbound old)
                                                  (io-upsert "todo-matrixcljs.route" new)))]
                                        (or (io-read "todo-matrixcljs.route") "All"))
@@ -134,7 +134,7 @@
 
 (defn todo-list-items []
   (section {:class  "main"
-            :hidden (c? (<mget (mx-todos me) :empty?))}
+            :hidden (cF (<mget (mx-todos me) :empty?))}
 
            (toggle-all)
 
@@ -144,7 +144,7 @@
                ;; for avoiding re-genning a complete list of kids just to add or remove a few.
                ;; This is overkill for short TodoMVC to-do lists -- just demonstrating the capability.
 
-               {:kid-values  (c? (when-let [rte (mx-route me)]
+               {:kid-values  (cF (when-let [rte (mx-route me)]
                                    (sort-by td-created
                                             (<mget (mx-todos me)
                                                    (case rte
@@ -163,13 +163,13 @@
 (defn toggle-all []
   (div {} {;; 'action' is an ad hoc bit of intermediate state that will be used to decide the
            ;; input HTML checked attribute and will also guide the label onclick handler.
-           :action (c? (if (every? td-completed (mx-todo-items me))
+           :action (cF (if (every? td-completed (mx-todo-items me))
                          :uncomplete :complete))}
 
     (input {:id        "toggle-all"
             :class     "toggle-all"
             ::tag/type "checkbox"
-            :checked   (c? (= (<mget (mx-par me) :action) :uncomplete))})
+            :checked   (cF (= (<mget (mx-par me) :action) :uncomplete))})
 
     (label {:for     "toggle-all"
             ;; a bit ugly: handler below is not in kids rule of LABEL, so 'me' is the DIV, not the LABEL.
@@ -183,10 +183,10 @@
 
 (defn dashboard-footer []
   (footer {:class  "footer"
-           :hidden (c? (<mget (mx-todos me) :empty?))}
+           :hidden (cF (<mget (mx-todos me) :empty?))}
 
           (span {:class   "todo-count"
-                 :content (c? (pp/cl-format nil "<strong>~a</strong>  item~:P remaining"
+                 :content (cF (pp/cl-format nil "<strong>~a</strong>  item~:P remaining"
                                             (count (remove td-completed (mx-todo-items me)))))})
 
           (ul {:class "filters"}
@@ -195,12 +195,12 @@
                                    ["Completed", "#/completed"]]]
                 (li {} (a {:href     route
                            :selector label
-                           :class    (c? (when (= (:selector @me) (mx-route me))
+                           :class    (cF (when (= (:selector @me) (mx-route me))
                                            "selected"))}
                           label))))
 
           (button {:class   "clear-completed"
-                   :hidden  (c? (empty? (<mget (mx-todos me) :items-completed)))
+                   :hidden  (cF (empty? (<mget (mx-todos me) :items-completed)))
                    :onclick #(doseq [td (filter td-completed (mx-todo-items))]
                                (td-delete! td))}
                   "Clear completed")))
